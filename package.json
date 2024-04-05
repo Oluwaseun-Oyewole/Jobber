@@ -12,15 +12,24 @@
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext ts --ext tsx --ext js",
     "format": "prettier --write .",
-    "test-all": "npm run check-format && npm run check-lint && npm run check-types && npm run build",
     "prepare": "husky"
   },
   "dependencies": {
+    "@prisma/client": "^5.12.1",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@vercel/postgres": "^0.8.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
+    "input-otp": "^1.2.4",
+    "lucide-react": "^0.364.0",
     "next": "14.1.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7",
+    "vercel": "^33.6.3"
   },
   "devDependencies": {
     "@types/node": "^20",
