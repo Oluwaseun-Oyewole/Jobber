@@ -8,7 +8,7 @@ services:
     command: yarn dev
     environment:
       - NODE_ENV=development
-    container_name: jobber_c
+    container_name: ghcr.io/Oluwaseun-Oyewole/jobber_c:latest
     ports:
       - 3000:3000
     volumes:
