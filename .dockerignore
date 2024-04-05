@@ -1,0 +1,11 @@
+.git
+.results
+scripts
+*Dockerfile*
+node_modules
+.env
+.vscode
+.husky
+.next
+next-env.d.ts
+README.md

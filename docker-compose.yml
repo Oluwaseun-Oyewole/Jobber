@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  jobber:
+    build:
+      context: .
+      target: dev
+    command: yarn dev
+    environment:
+      - NODE_ENV=development
+    container_name: jobber_c
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    stdin_open: true
+    tty: true
