@@ -29,6 +29,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+
+ARG NEXTAUTH_SECRET=J23a5z4dZYMXkMZqztI9l98NZYd64uPj3q6iiLpveFc=
+ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
