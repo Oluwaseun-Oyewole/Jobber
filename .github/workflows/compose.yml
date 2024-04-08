@@ -4,8 +4,8 @@ name: Publish Docker image
 #   release:
 #     types: [published]
 on:
-  push:
-    branches: [main]
+  # push:
+  #   branches: [main]
 
 jobs:
   push_to_registry:
@@ -32,6 +32,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: true
+          push: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

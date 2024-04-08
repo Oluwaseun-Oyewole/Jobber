@@ -8,6 +8,9 @@ const nextConfig = {
     // eslint-disable-next-line no-undef
     removeConsole: process.env.NODE_ENV !== "development",
   },
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
 };
 
 const withPWA = nextPWA({
