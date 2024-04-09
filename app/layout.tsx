@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sans.className}`}>
-        <div className="h-[10vh] flex items-center justify-center sticky top-0 left-0 bg-white">
+        <div className="h-[10vh] flex items-center justify-center sticky top-0 left-0 bg-white z-10">
           <div className="w-[95%] flex justify-between items-center">
             <Link href="/">
               <Image src={Logo} alt="logo" className="w-[100px]" />
@@ -41,7 +41,7 @@ export default function RootLayout({
           </div>
         </div>
         <main className="w-full flex items-center justify-center bg-lightGray">
-          <div className="w-[95%] h-[90vh]">{children}</div>
+          <div className="w-[95%] h-screen overscroll-none">{children}</div>
         </main>
       </body>
     </html>

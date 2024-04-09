@@ -38,7 +38,7 @@ const Search = () => {
 
       <Button
         children="Search"
-        className="bg-lightBlue h-[55px] lg:ml-5 transition-all ease-in-out duration-500"
+        className="bg-lightBlue h-[55px] lg:ml-5 hover:bg-lightBlue"
       />
     </div>
   );
