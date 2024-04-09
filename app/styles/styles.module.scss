@@ -1,0 +1,10 @@
+@import "./mixins";
+
+.__flex {
+  @include flexStyles(row);
+}
+
+.flex_center {
+  display: flex;
+  align-items: center;
+}

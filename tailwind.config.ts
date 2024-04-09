@@ -1,5 +1,11 @@
 import type { Config } from "tailwindcss";
 
+const COLORS = {
+  darkGray: "#8C8CB0",
+  lightGray: "#F0F0F5",
+  lightBlue: "#537FE7",
+};
+
 const config = {
   darkMode: ["class"],
   content: [
@@ -52,6 +58,7 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        ...COLORS,
       },
       borderRadius: {
         lg: "var(--radius)",

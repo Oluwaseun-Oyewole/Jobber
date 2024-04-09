@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "../app/styles/styles.module.scss";
 
 @layer base {
   :root {
@@ -73,4 +74,23 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+::-webkit-scrollbar {
+  background: transparent !important;
+  width: 0px !important;
+}
+
+// @media screen and (max-width: 500px) {
+//   body {
+//     overflow: scroll;
+//   }
+// }
+
+// body {
+//   overflow: hidden;
+// }
+
+.border__bottom {
+  border-bottom: 2px #f0f0f5 solid;
 }
