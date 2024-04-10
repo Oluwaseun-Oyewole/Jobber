@@ -15,11 +15,10 @@ import Google from "../../../assets/google.svg";
 
 const Cards = () => {
   return (
-    <div className="grid grid-flow-row gap-4 pb-5">
+    <div className="grid grid-flow-row gap-4 pb-7">
       <div className="grid grid-cols-[100%] gap-4 lg:gap-3 md:grid-flow-col md:grid-cols-[49%_49%]">
         <Link href="/job-description/1" className="md:hidden">
-          {" "}
-          <div className="min-h-[240px] bg-white rounded-lg shadow-md hover:shadow-lg cursor-pointer flex flex-col justify-between px-5 py-5">
+          <div className="min-h-[260px] bg-white rounded-lg shadow-md hover:shadow-lg cursor-pointer flex flex-col justify-between px-5 py-6">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
                 <Image src={Netflix} alt="netflix" />
@@ -33,7 +32,9 @@ const Cards = () => {
             </div>
 
             <div className="flex justify-between items-center w-[90%] font-[400] text-sm">
-              <h3 className=" bg-lightGray rounded-sm py-2 px-3">Full-Time</h3>
+              <h3 className=" bg-lightGray rounded-sm py-2 px-3 text-sm md:text-base">
+                Full-Time
+              </h3>
             </div>
 
             <div>

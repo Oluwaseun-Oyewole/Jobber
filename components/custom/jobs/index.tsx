@@ -94,13 +94,13 @@ const Jobs = () => {
 
       <div className="md:hidden">
         <div className="w-full">
-          <h2 className="font-[300] py-2">Salary Range</h2>
+          <h2 className="font-[300] py-2 text-sm">Salary Range</h2>
           <Slider defaultValue={[33]} max={100} step={1} />
         </div>
       </div>
-      <div className="pt-8">
-        <div className="flex items-center justify-between pb-6">
-          <h1 className=" text-sm md:text-lg">Search Results</h1>
+      <div className="pt-6">
+        <div className="flex items-center justify-between pb-3">
+          <h1 className="text-sm md:text-lg">Search Results</h1>
           <p className="text-sm text-gray-400">30, 000 results found</p>
         </div>
         <Cards />

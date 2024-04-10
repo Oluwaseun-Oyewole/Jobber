@@ -1,6 +1,5 @@
 "use client";
 import Mail from "@/assets/email.svg";
-import Facebook from "@/assets/face.svg";
 import Google from "@/assets/google.svg";
 import LinkedIn from "@/assets/linkedIn.svg";
 import Lock from "@/assets/lock.svg";
@@ -11,6 +10,7 @@ import { LoginFormValues, loginValidationSchema } from "@/lib/schema/login";
 import { Form, Formik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
+import { FaGithub } from "react-icons/fa6";
 import { ZodError } from "zod";
 import FormikController from "../formikController";
 import Loader from "../loader";
@@ -32,13 +32,13 @@ const LoginComponent = () => {
   };
 
   return (
-    <div className="my-10 md:my-0">
-      <div className="flex flex-col items-center justify-around shadow-lg rounded-xl bg-white w-[370px] md:w-[470px] min-h-[500px] p-10">
-        <h1 className="font-extrabold text-sm md:text-2xl">Login</h1>
-        <div className="flex gap-3 md:py-5">
+    <div className="bg-white w-[400px] md:w-[470px] min-h-[500px] shadow-lg rounded-xl my-10 md:my-0">
+      <div className="flex flex-col items-center justify-around p-5 md:p-10">
+        <h1 className="font-extrabold text-xl md:text-2xl">Login</h1>
+        <div className="flex gap-3 py-3 md:py-5">
           <Image src={LinkedIn} alt="linkedin" className="cursor-pointer" />
           <Image src={Google} alt="google" className="cursor-pointer" />
-          <Image src={Facebook} alt="facebook" className="cursor-pointer" />
+          <FaGithub size={22} className="mt-3" />
         </div>
         <div className="w-full">
           <Formik
