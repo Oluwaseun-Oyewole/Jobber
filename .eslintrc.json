@@ -13,7 +13,7 @@
     "ecmaVersion": "latest"
   },
   "plugins": ["@typescript-eslint", "prettier"],
-  "rules": {},
+  "rules": { "@typescript-eslint/no-explicit-any": "off" },
   "settings": {
     "import/resolver": {
       "typescript": {}

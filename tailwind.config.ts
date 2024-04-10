@@ -4,6 +4,8 @@ const COLORS = {
   darkGray: "#8C8CB0",
   lightGray: "#F0F0F5",
   lightBlue: "#537FE7",
+  deepBlue: "#0049FC",
+  deepPurple: "#6836DD",
 };
 
 const config = {

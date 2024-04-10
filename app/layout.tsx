@@ -34,9 +34,11 @@ export default function RootLayout({
                   <div className="h-3 w-3 bg-red-500 rounded-full text-[8px] text-red-500 font-bold absolute top-5 md:top-6 z-20 right-[110px] md:right-[135px]"></div>
                 </div>
               </Link>
-              <Button className="bg-lightBlue transition-all ease-in-out duration-500">
-                Login
-              </Button>
+              <Link href="/auth/login">
+                <Button className="bg-lightBlue transition-all ease-in-out duration-500">
+                  login
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
