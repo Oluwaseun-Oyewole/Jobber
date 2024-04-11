@@ -3,6 +3,7 @@ import { Bell } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Toaster } from "react-hot-toast";
 import Logo from "../assets/logo-f.svg";
 import { sans } from "./fonts";
 import "./globals.scss";
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sans.className}`}>
+        <Toaster position="top-center" />
         <div className="h-[10vh] flex items-center justify-center sticky top-0 left-0 bg-white z-10">
           <div className="w-[95%] flex justify-between items-center">
             <Link href="/">

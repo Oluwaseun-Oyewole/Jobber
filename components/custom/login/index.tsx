@@ -7,15 +7,18 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { LoginFormValues, loginValidationSchema } from "@/lib/schema/login";
+import { login } from "@/services/auth";
 import { Form, Formik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FaGithub } from "react-icons/fa6";
 import { ZodError } from "zod";
 import FormikController from "../formikController";
 import Loader from "../loader";
 
 const LoginComponent = () => {
+  const router = useRouter();
   const validateForm = (values: LoginFormValues) => {
     try {
       loginValidationSchema.parse(values);
@@ -27,8 +30,18 @@ const LoginComponent = () => {
   };
 
   const handleSubmit = async (values: LoginFormValues, { resetForm }: any) => {
-    console.log(values);
-    resetForm();
+    try {
+      const response = await login({
+        email: values.email,
+        password: values.password,
+      });
+      if (response.status === 200) {
+        resetForm();
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      return;
+    }
   };
 
   return (

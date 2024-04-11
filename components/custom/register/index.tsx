@@ -8,16 +8,20 @@ import {
   RegisterFormValues,
   registerValidationSchema,
 } from "@/lib/schema/register";
+import { register } from "@/services/auth";
+import { Toastify } from "@/utils/toasts";
 import { Form, Formik } from "formik";
 import { UserRoundPlus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FaGithub } from "react-icons/fa6";
 import { ZodError } from "zod";
 import FormikController from "../formikController";
 import Loader from "../loader";
 
 const RegisterComponent = () => {
+  const router = useRouter();
   const validateForm = (values: RegisterFormValues) => {
     try {
       registerValidationSchema.parse(values);
@@ -32,8 +36,21 @@ const RegisterComponent = () => {
     values: RegisterFormValues,
     { resetForm }: any,
   ) => {
-    console.log(values);
-    resetForm();
+    try {
+      const response = await register({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        agreement: values.agreement,
+      });
+      if (response?.status === 200) {
+        Toastify.success(response.message);
+        router.push(`/auth/login`);
+        resetForm();
+      }
+    } catch (error) {
+      return;
+    }
   };
 
   return (
@@ -56,6 +73,8 @@ const RegisterComponent = () => {
             }}
             validate={validateForm}
             onSubmit={handleSubmit}
+            validateOnChange
+            validateOnMount
           >
             {(formik) => {
               return (
@@ -146,7 +165,7 @@ const RegisterComponent = () => {
 
                   <Button
                     disabled={!formik.isValid}
-                    className="pt-5 !disabled:cursor-not-allowed w-full py-6 bg-deepBlue hover:bg-lightBlue transition-all ease-in-out duration-500 flex items-center gap-2"
+                    className="pt-5 !disabled:cursor-not-allowed w-full py-6 bg-deepBlue hover:bg-deepBlue transition-all ease-in-out duration-500 flex items-center gap-2"
                   >
                     {formik.isSubmitting && <Loader />}
                     Signup
