@@ -36,6 +36,18 @@ const Request = {
   },
 
   /**
+   * Makes a GET request
+   *
+   * @param {string} endpoint
+   * @param {AxiosRequestConfig | null} options
+   */
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async get<T = any>(endpoint: string, options?: AxiosRequestConfig | null) {
+    return (await Axios.get(endpoint, options || {})).data;
+  },
+
+  /**
    * Makes a POST request
    *
    * @param endpoint

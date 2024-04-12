@@ -6,11 +6,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { useAppSelector } from "@/lib/store/hook";
+import { JobResponseBody } from "@/services/jobs/types";
 import Cards from "../cards";
 import { experience, jobType, position, sortBy } from "../filter/jobs.data";
 import Search from "../search";
 
 const Jobs = () => {
+  const { data, isLoading } = useAppSelector((state) => state.rootReducer.jobs);
   return (
     <div className="mx-4 h-[84vh] overflow-y-scroll flex flex-col gap-3">
       <div className="bg-lightGray sticky top-0 bg-transparent left-0 z-10">
@@ -103,7 +106,7 @@ const Jobs = () => {
           <h1 className="text-sm md:text-lg">Search Results</h1>
           <p className="text-sm text-gray-400">30, 000 results found</p>
         </div>
-        <Cards />
+        <Cards data={data as JobResponseBody[]} isLoading={isLoading} />
       </div>
     </div>
   );

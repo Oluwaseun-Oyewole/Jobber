@@ -8,6 +8,29 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+
+enum JobType {
+ FullTime
+ PartTime
+ Internship
+ Volunterr
+ Contract
+}
+
+enum Experience {
+  Fresh
+  Beginner
+  Intermediate
+  Expert
+  Guru
+}
+
+enum Position {
+  onSite
+  Remote
+  Hybrid
+}
+
 model Account {
   id                 String  @id @default(cuid())
   userId             String  @map("user_id")
@@ -33,7 +56,6 @@ model User{
     id          String      @default(cuid()) @id
     name        String?
     password    String?
-    image       String?
     email       String? @unique
     createdAt   DateTime  @default(now()) @map(name: "created_at")
     updatedAt   DateTime @default(now())  @map(name: "updated_at")
@@ -41,4 +63,21 @@ model User{
     accounts        Account[]
     
     @@map(name:"users")
+}
+
+
+model Job{
+  id      String  @default(cuid()) @id
+  imageSrc  String? @map(name:"image_src")
+  jobTitle  String  @map(name:"job_title")
+  jobType   JobType @map(name:"job_type")
+  datePosted DateTime @default(now()) @map(name:"date_posted")
+  salary     Int?   
+  jobInfo    String @map(name:"job_description")
+  experience Experience 
+  position Position
+  companyName String?
+
+  @@map(name:"jobs")
+
 }
