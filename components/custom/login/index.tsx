@@ -1,7 +1,5 @@
 "use client";
 import Mail from "@/assets/email.svg";
-import Google from "@/assets/google.svg";
-import LinkedIn from "@/assets/linkedIn.svg";
 import Lock from "@/assets/lock.svg";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -12,10 +10,10 @@ import { Form, Formik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaGithub } from "react-icons/fa6";
 import { ZodError } from "zod";
 import FormikController from "../formikController";
 import Loader from "../loader";
+import OAuth from "../oauth";
 
 const LoginComponent = () => {
   const router = useRouter();
@@ -35,7 +33,14 @@ const LoginComponent = () => {
         email: values.email,
         password: values.password,
       });
-      if (response.status === 200) {
+
+      // const response = await signIn("credentials", {
+      //   email: values.email,
+      //   password: values.password,
+      //   redirect: false,
+      // });
+      console.log("response -- s-- ", response);
+      if (response?.status === 200) {
         resetForm();
         router.push("/dashboard");
       }
@@ -48,11 +53,7 @@ const LoginComponent = () => {
     <div className="bg-white w-[400px] md:w-[470px] min-h-[500px] shadow-lg rounded-xl my-10 md:my-0">
       <div className="flex flex-col items-center justify-around p-5 md:p-10">
         <h1 className="font-extrabold text-xl md:text-2xl">Login</h1>
-        <div className="flex gap-3 py-3 md:py-5">
-          <Image src={LinkedIn} alt="linkedin" className="cursor-pointer" />
-          <Image src={Google} alt="google" className="cursor-pointer" />
-          <FaGithub size={22} className="mt-3" />
-        </div>
+        <OAuth />
         <div className="w-full">
           <Formik
             initialValues={{

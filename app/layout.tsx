@@ -1,12 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Bell } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { Toaster } from "react-hot-toast";
-import Logo from "../assets/logo-f.svg";
 import { sans } from "./fonts";
 import "./globals.scss";
+import Provider from "./provider/layout";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${sans.className}`}>
         <Toaster position="top-center" />
-        <div className="h-[10vh] flex items-center justify-center sticky top-0 left-0 bg-white z-10">
+        {/* <div className="h-[10vh] flex items-center justify-center sticky top-0 left-0 bg-white z-10">
           <div className="w-[95%] flex justify-between items-center">
             <Link href="/">
               <Image src={Logo} alt="logo" className="w-[100px]" />
@@ -43,9 +39,11 @@ export default function RootLayout({
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
         <main className="w-full flex items-center justify-center bg-lightGray">
-          <div className="w-[95%] h-screen overscroll-none">{children}</div>
+          <div className="w-full h-screen overscroll-none">
+            <Provider>{children} </Provider>
+          </div>
         </main>
       </body>
     </html>

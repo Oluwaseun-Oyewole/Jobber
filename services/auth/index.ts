@@ -23,7 +23,6 @@ export const login = async (data: LoginFormValues) => {
     });
     return response;
   } catch (error) {
-    console.log("error from axios", error);
     handleRequestError(error);
   }
 };
