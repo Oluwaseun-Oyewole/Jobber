@@ -1,38 +1,42 @@
-import NextAuth from "next-auth";
-import authConfig from "./auth.config";
-import {
-  apiAuthPrefix,
-  authRoutes,
-  login_redirect,
-  publicRoutes,
-} from "./routes";
+// import NextAuth from "next-auth";
+// import authConfig from "./auth.config";
 
-const { auth } = NextAuth(authConfig);
+// const { auth } = NextAuth(authConfig);
 
-export default auth((req) => {
-  const { nextUrl } = req;
-  const isAuthenticated = !!req.auth;
-  const isPublicRoutes = publicRoutes.includes(nextUrl.pathname);
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+/***
+ * This code  authenticate users based on auth status
+ * this code was commented off because of the vercel edge  function update
+ *
+ * */
 
-  if (isApiAuthRoute) return;
+// export default auth((req) => {
+//   const { nextUrl } = req;
+//   const isAuthenticated = !!req.auth;
+//   const isPublicRoutes = publicRoutes.includes(nextUrl.pathname);
+//   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+//   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
 
-  if (isAuthRoute) {
-    if (isAuthenticated) {
-      return Response.redirect(new URL(login_redirect, nextUrl));
-    }
-    return;
-  }
+//   if (isApiAuthRoute) return;
 
-  if (!isAuthenticated && !isPublicRoutes) {
-    return Response.redirect(new URL("/", nextUrl));
-  }
-  //   return isAuthenticated
-  //     ? NextResponse.next()
-  //     : NextResponse.redirect(new URL("/auth/login", req.nextUrl));
-});
+//   if (isAuthRoute) {
+//     if (isAuthenticated) {
+//       return Response.redirect(new URL(login_redirect, nextUrl));
+//     }
+//     return;
+//   }
 
-export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+//   if (!isAuthenticated && !isPublicRoutes) {
+//     return Response.redirect(new URL("/", nextUrl));
+//   }
+//   //   return isAuthenticated
+//   //     ? NextResponse.next()
+//   //     : NextResponse.redirect(new URL("/auth/login", req.nextUrl));
+// });
+
+// export const config = {
+//   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+// };
+
+export const middleware = () => {
+  return;
 };
