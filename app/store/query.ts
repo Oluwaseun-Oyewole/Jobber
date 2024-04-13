@@ -7,7 +7,7 @@ export const JobSlice = createApi({
     baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
   }),
 
-  tagTypes: ["Jobs"],
+  tagTypes: ["Jobs", "JobFilter"],
   endpoints: (builder) => ({
     getAllJobs: builder.query({
       query: (page: JobRequestBody) => {
@@ -17,7 +17,19 @@ export const JobSlice = createApi({
       },
       providesTags: ["Jobs"],
     }),
+    getJobsFilter: builder.query<any, { resultsPerPage: number; page: number }>(
+      {
+        query: (args) => {
+          const { resultsPerPage, page } = args;
+          return {
+            url: `filter-jobs?resultsPerPage=${resultsPerPage}&page=${page}`,
+            params: { resultsPerPage, page },
+          };
+        },
+        providesTags: ["JobFilter"],
+      },
+    ),
   }),
 });
 
-export const { useGetAllJobsQuery } = JobSlice;
+export const { useGetAllJobsQuery, useGetJobsFilterQuery } = JobSlice;

@@ -88,3 +88,26 @@ body {
 .border__bottom {
   border-bottom: 2px #f0f0f5 solid;
 }
+
+.rc-slider {
+  // height: 50px !important;
+}
+
+.rc-slider-track {
+  background: transparent !important;
+}
+
+.rc-slider-handle {
+  height: 20px !important;
+  width: 20px !important;
+  background: #537fe7 !important;
+}
+
+.rc-slider-rail {
+  height: 9px !important;
+  border-radius: 50px !important;
+  // background: #537fe7 !important;
+}
+
+.rc-slider-horizontal {
+}

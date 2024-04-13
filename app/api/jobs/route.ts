@@ -3,16 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   const { searchParams } = await new URL(req.url);
-  let resultsPerPage = Number(searchParams.get("resultsPerPage")) ?? 2;
-  let page = Number(searchParams.get("page"))! ?? 1;
-
-  console.log("results Per Page", resultsPerPage);
+  let resultsPerPage = Number(searchParams.get("resultsPerPage"));
+  let page = Number(searchParams.get("page"))!;
 
   if (!resultsPerPage || resultsPerPage === 0) {
     resultsPerPage += 5;
   }
-
-  console.log("results Per Page", resultsPerPage);
   if (page <= 0) {
     page += 1;
   }
@@ -40,7 +36,6 @@ export const GET = async (req: NextRequest) => {
       { status: 200 },
     );
   } catch (error) {
-    console.log("error", error);
     return NextResponse.json(
       { message: "Oops something went wrong" },
       { status: 501 },

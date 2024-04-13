@@ -1,8 +1,6 @@
 "use client";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Slider } from "@/components/ui/slider";
 import {
   Tooltip,
   TooltipContent,
@@ -10,13 +8,116 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import classNames from "classnames";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import { ChangeEvent, useState } from "react";
 import { experience, jobType, position, sortBy } from "./jobs.data";
+
+interface SliderTooltipProps {
+  children?: React.ReactNode;
+  theme: any;
+}
+
+const SliderTooltip: React.FC<SliderTooltipProps> = ({
+  children,
+  theme = {},
+}) => {
+  const themeTooltip = {
+    ...theme,
+    color: theme.color || "red",
+    fontSize: theme.fontSize || "14px",
+    fontFamily: theme.fontFamily || "Source Sans Pro, mono",
+    whiteSpace: theme.whiteSpace || "nowrap",
+    position: "relative",
+    bottom: "100%",
+    paddingTop: "50px",
+    transform: "translate(-50%, -10px)",
+  };
+
+  return <div style={themeTooltip}>{children}</div>;
+};
+
+type Job = {
+  id: number;
+  label: string;
+  value: string;
+  checked: boolean;
+};
+
+const CheckBoxInput = ({
+  name,
+  id,
+  value,
+  checked,
+  job,
+  onChange,
+}: {
+  name: string;
+  id: string;
+  value: string;
+  checked: boolean;
+  job: Job;
+  // onChange: (job: Job, e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (job: Job, e: ChangeEvent<HTMLInputElement>) => void;
+}) => {
+  return (
+    <input
+      type="checkbox"
+      name={name}
+      id={id}
+      value={value}
+      checked={checked}
+      onChange={(e) => onChange(job, e)}
+      className="h-[15px] w-[17px] focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+    />
+  );
+};
 
 const Filter = () => {
   const classes = {
     border: "py-6 border-b-2 border-lightGray",
     flexCenterSpace: "flex items-center space-x-2",
     flexJustifyBetween: "flex justify-between",
+  };
+
+  const [jobs, setJobs] = useState(jobType);
+  const [jobExperience, setJobExperience] = useState(experience);
+  const [jobPosition, setJobPosition] = useState(position);
+  const [sliderRange, setSliderRange] = useState([10, 1000000]);
+
+  console.log("slider range");
+
+  const handleChange = (item: Job, event: ChangeEvent<HTMLInputElement>) => {
+    setJobs((items) => {
+      return items?.map((e) =>
+        e.id === item.id ? { ...e, checked: event.target.checked } : e,
+      );
+    });
+  };
+  const handleJobExperienceChange = (
+    item: Job,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    setJobExperience((items) => {
+      return items?.map((e) =>
+        e.id === item.id ? { ...e, checked: event.target.checked } : e,
+      );
+    });
+  };
+
+  const handleJobPosition = (
+    item: Job,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    setJobPosition((items) => {
+      return items?.map((e) =>
+        e.id === item.id ? { ...e, checked: event.target.checked } : e,
+      );
+    });
+  };
+
+  const handleRadioChange = (e: string) => {
+    console.log("string value", e);
   };
 
   return (
@@ -30,13 +131,13 @@ const Filter = () => {
         <h2 className="font-bold text-lg">Filters</h2>
         <p className="text-sm text-blue-500 ">Reset All</p>
       </div>
-
       <div className={classNames(classes.border)}>
         <h2 className="font-bold pb-5">Sort By</h2>
         <div>
           <RadioGroup
             defaultValue={sortBy[0].value}
             className="w-[92%] font-[300]"
+            onValueChange={(e) => handleRadioChange(e)}
           >
             <div className="grid gap-3 grid-cols-[50%_50%] items-center">
               {sortBy?.map((sort) => {
@@ -72,29 +173,79 @@ const Filter = () => {
           </RadioGroup>
         </div>
       </div>
-
       <div className={classNames(classes.border)}>
-        <div className="w-[80%]">
+        <div className="w-[90%]">
           <h2 className="font-bold pb-5">Salary Range</h2>
-          <Slider defaultValue={[33]} max={100} step={1} />
+          <Slider
+            defaultValue={[10, 1000000]}
+            min={10}
+            max={1000000}
+            // value={[100, 100000]}s
+            range
+            onChange={(e: any) => setSliderRange(e)}
+            handleRender={(renderProps) => {
+              return (
+                <div {...renderProps.props}>
+                  <SliderTooltip
+                    theme={{
+                      color: "#0049FC",
+                      fontWeight: "medium",
+                    }}
+                  ></SliderTooltip>
+                </div>
+              );
+            }}
+          />
+          <div className="flex items-center justify-between mt-6 text-deepBlue font-medium text-[14px]">
+            <p>&#36;{sliderRange[0]}</p>
+            <p>&#36;{sliderRange[1]}</p>
+          </div>
         </div>
       </div>
-
       <div className={classNames(classes.border)}>
         <h2 className="pb-4 font-bold">Job Type</h2>
 
         <div className="w-[92%]">
           <div className="grid grid-flow-cols grid-cols-[50%_50%] gap-3">
-            {jobType?.map((job) => {
+            {jobs?.map((job) => {
               return (
-                <div className={classNames(classes.flexJustifyBetween)}>
+                <div
+                  key={job.id}
+                  className={classNames(classes.flexJustifyBetween)}
+                >
                   <div
                     className={classNames(
                       classes.flexCenterSpace,
                       "space-x-0 gap-1",
                     )}
                   >
-                    <Checkbox id={job.value} />
+                    {/* <Checkbox
+                      id={job.value}
+                      checked={job.checked}
+                      onCheckedChange={(e) => {
+                        console.log("e", e);
+                      }}
+                      onClick={(e) => {
+                        console.log("eee", e.target, e.currentTarget.value);
+                      }}
+                    /> */}
+                    {/* <input
+                      type="checkbox"
+                      name="jobType"
+                      id={job.value}
+                      value={job.value}
+                      checked={job.checked}
+                      onChange={(e) => handleChange(job, e)}
+                      className="h-4 w-4 focus:ring-blue-500 border-red-300 focus:border-blue-500 rounded-2xl cursor-pointer"
+                    /> */}
+                    <CheckBoxInput
+                      name="jobType"
+                      id={job.value}
+                      value={job.value}
+                      checked={job.checked}
+                      job={job}
+                      onChange={handleChange}
+                    />
                     <Label htmlFor={job.value}>{job.label}</Label>
                   </div>
                 </div>
@@ -103,12 +254,11 @@ const Filter = () => {
           </div>
         </div>
       </div>
-
       <div className={classNames(classes.border)}>
         <h2 className="pb-4 font-bold">Experience</h2>
         <div className="w-[92%]">
           <div className="grid grid-flow-cols grid-cols-[50%_50%] gap-3">
-            {experience?.map((job) => {
+            {jobExperience?.map((job) => {
               return (
                 <div className={classNames(classes.flexJustifyBetween)}>
                   <div
@@ -117,7 +267,15 @@ const Filter = () => {
                       "space-x-0 gap-1",
                     )}
                   >
-                    <Checkbox id={job.value} />
+                    <CheckBoxInput
+                      name="experience"
+                      id={job.value}
+                      value={job.value}
+                      checked={job.checked}
+                      job={job}
+                      onChange={handleJobExperienceChange}
+                    />
+
                     <Label htmlFor={job.value}>{job.label}</Label>
                   </div>
                 </div>
@@ -126,13 +284,12 @@ const Filter = () => {
           </div>
         </div>
       </div>
-
-      <div className={classNames("py-6")}>
+      <div className={classNames("pt-6")}>
         <h2 className="pb-4 font-bold">Position</h2>
 
         <div className="w-[92%]">
           <div className="grid grid-flow-cols grid-cols-[50%_50%] gap-3">
-            {position?.map((job) => {
+            {jobPosition?.map((job) => {
               return (
                 <div className={classNames(classes.flexJustifyBetween)}>
                   <div
@@ -141,7 +298,14 @@ const Filter = () => {
                       "space-x-0 gap-1",
                     )}
                   >
-                    <Checkbox id={job.value} />
+                    <CheckBoxInput
+                      name="experience"
+                      id={job.value}
+                      value={job.value}
+                      checked={job.checked}
+                      job={job}
+                      onChange={handleJobPosition}
+                    />
                     <Label htmlFor={job.value}>{job.label}</Label>
                   </div>
                 </div>

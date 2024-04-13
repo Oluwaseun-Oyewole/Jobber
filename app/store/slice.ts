@@ -30,6 +30,17 @@ const jobSlice = createSlice({
         state.data = action.payload?.data;
       },
     );
+    builder.addMatcher(api.endpoints.getJobsFilter.matchPending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addMatcher(
+      api.endpoints.getJobsFilter.matchFulfilled,
+      (state, { payload }) => {
+        state.isLoading = false;
+        state.isFilter = true;
+        state.data = payload?.data;
+      },
+    );
   },
 });
 

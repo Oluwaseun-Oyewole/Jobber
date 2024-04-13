@@ -6,21 +6,21 @@ export const sortBy = [
 ];
 
 export const jobType = [
-  { id: 1, label: "Full-Time", value: "Full-time" },
-  { id: 2, label: "Part-Time", value: "Part-time" },
-  { id: 3, label: "Internship", value: "Internship" },
-  { id: 4, label: "Volunteer", value: "Volunteer" },
+  { id: 1, label: "Full-Time", value: "Full-Time", checked: false },
+  { id: 2, label: "Part-Time", value: "Part-Time", checked: false },
+  { id: 3, label: "Internship", value: "Internship", checked: false },
+  { id: 4, label: "Volunteer", value: "Volunteer", checked: false },
 ];
 
 export const experience = [
-  { id: 1, label: "Fresh", value: "Fresh" },
-  { id: 2, label: "Beginner", value: "Beginner" },
-  { id: 3, label: "Intermediate", value: "Intermediate" },
-  { id: 4, label: "Expert", value: "Expert" },
+  { id: 1, label: "Fresh", value: "Fresh", checked: false },
+  { id: 2, label: "Beginner", value: "Beginner", checked: false },
+  { id: 3, label: "Intermediate", value: "Intermediate", checked: false },
+  { id: 4, label: "Expert", value: "Expert", checked: false },
 ];
 
 export const position = [
-  { id: 1, label: "On-Site", value: "On-Site" },
-  { id: 2, label: "Hybrid", value: "Hybrid" },
-  { id: 3, label: "Remote", value: "Remote" },
+  { id: 1, label: "On-Site", value: "On-Site", checked: false },
+  { id: 2, label: "Hybrid", value: "Hybrid", checked: false },
+  { id: 3, label: "Remote", value: "Remote", checked: false },
 ];
