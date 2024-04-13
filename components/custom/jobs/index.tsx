@@ -5,12 +5,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
 import { useAppSelector } from "@/lib/store/hook";
 import { JobResponseBody } from "@/services/jobs/types";
 import Cards from "../cards";
 import { experience, jobType, position, sortBy } from "../filter/jobs.data";
 import Search from "../search";
+import SliderComponent from "../slider";
 
 const Jobs = () => {
   const { data, isLoading } = useAppSelector((state) => state.rootReducer.jobs);
@@ -98,7 +98,7 @@ const Jobs = () => {
       <div className="md:hidden">
         <div className="w-full">
           <h2 className="font-[300] py-2 text-sm">Salary Range</h2>
-          <Slider defaultValue={[33]} max={100} step={1} />
+          <SliderComponent />
         </div>
       </div>
       <div className="pt-6">

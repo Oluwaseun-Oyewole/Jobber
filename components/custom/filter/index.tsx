@@ -8,34 +8,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import classNames from "classnames";
-import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { ChangeEvent, useState } from "react";
+import SliderComponent from "../slider";
 import { experience, jobType, position, sortBy } from "./jobs.data";
-
-interface SliderTooltipProps {
-  children?: React.ReactNode;
-  theme: any;
-}
-
-const SliderTooltip: React.FC<SliderTooltipProps> = ({
-  children,
-  theme = {},
-}) => {
-  const themeTooltip = {
-    ...theme,
-    color: theme.color || "red",
-    fontSize: theme.fontSize || "14px",
-    fontFamily: theme.fontFamily || "Source Sans Pro, mono",
-    whiteSpace: theme.whiteSpace || "nowrap",
-    position: "relative",
-    bottom: "100%",
-    paddingTop: "50px",
-    transform: "translate(-50%, -10px)",
-  };
-
-  return <div style={themeTooltip}>{children}</div>;
-};
 
 type Job = {
   id: number;
@@ -83,9 +59,6 @@ const Filter = () => {
   const [jobs, setJobs] = useState(jobType);
   const [jobExperience, setJobExperience] = useState(experience);
   const [jobPosition, setJobPosition] = useState(position);
-  const [sliderRange, setSliderRange] = useState([10, 1000000]);
-
-  console.log("slider range");
 
   const handleChange = (item: Job, event: ChangeEvent<HTMLInputElement>) => {
     setJobs((items) => {
@@ -173,33 +146,11 @@ const Filter = () => {
           </RadioGroup>
         </div>
       </div>
+
       <div className={classNames(classes.border)}>
         <div className="w-[90%]">
           <h2 className="font-bold pb-5">Salary Range</h2>
-          <Slider
-            defaultValue={[10, 1000000]}
-            min={10}
-            max={1000000}
-            // value={[100, 100000]}s
-            range
-            onChange={(e: any) => setSliderRange(e)}
-            handleRender={(renderProps) => {
-              return (
-                <div {...renderProps.props}>
-                  <SliderTooltip
-                    theme={{
-                      color: "#0049FC",
-                      fontWeight: "medium",
-                    }}
-                  ></SliderTooltip>
-                </div>
-              );
-            }}
-          />
-          <div className="flex items-center justify-between mt-6 text-deepBlue font-medium text-[14px]">
-            <p>&#36;{sliderRange[0]}</p>
-            <p>&#36;{sliderRange[1]}</p>
-          </div>
+          <SliderComponent />
         </div>
       </div>
       <div className={classNames(classes.border)}>
