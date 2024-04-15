@@ -97,6 +97,10 @@ const Description = () => {
                         <h1 className="font-bold">Position</h1>
                         <p className="text-sm pt-1">{data?.data?.position}</p>
                       </div>
+                      <div>
+                        <h1 className="font-bold">Location</h1>
+                        <p className="text-sm pt-1">{data?.data?.location}</p>
+                      </div>
                     </div>
                   </div>
                   <div className="py-6 border__bottom font-[300]">
@@ -112,7 +116,7 @@ const Description = () => {
                     </p>
 
                     <Link href={`/job-description/${data?.data?.id}`}>
-                      <Button className="bg-lightBlue w-full mt-4 h-[50px] transition-all ease-in-out duration-500">
+                      <Button className="bg-lightBlue hover:bg-deepBlue w-full mt-4 h-[50px] transition-all ease-in-out duration-500">
                         Read More
                       </Button>
                     </Link>

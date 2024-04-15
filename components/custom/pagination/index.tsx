@@ -59,7 +59,7 @@ const PaginationWrapper = ({
   //   console.log("total pages", totalPages);
 
   useGetAllJobsQuery(
-    { page: currentPage, resultsPerPage: 1 },
+    { page: currentPage, resultsPerPage: 5 },
     { skip: !page || currentPage < 1 },
   );
 

@@ -20,7 +20,7 @@ const Nav = () => {
             </div>
           </Link>
           <Link href="/auth/login">
-            <Button className="bg-lightBlue transition-all ease-in-out duration-500">
+            <Button className="bg-lightBlue hover:bg-deepBlue transition-all ease-in-out duration-500">
               login
             </Button>
           </Link>

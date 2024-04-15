@@ -39,8 +39,8 @@ const JobDetails = ({ params: { id } }: IProps) => {
             <p>{data?.data?.companyName}</p>
           </div>
 
-          <p className="bg-[rgba(83,116,231,0.1)] text-[#5374E7] rounded-sm py-3 w-[60%] lg:w-[25%] flex items-center justify-center font-[300] text-sm my-3">
-            {data?.data?.hired}
+          <p className="bg-[rgba(83,116,231,0.1)] text-[#5374E7] rounded-sm py-3 w-[60%] lg:w-[18%] flex items-center justify-center font-[300] text-sm my-3">
+            {data?.data?.hired} to be hired
           </p>
         </div>
         <div>
