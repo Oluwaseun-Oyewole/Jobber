@@ -23,13 +23,11 @@ const SliderTooltip: React.FC<SliderTooltipProps> = ({
     paddingTop: "50px",
     transform: "translate(-50%, -10px)",
   };
-
   return <div style={themeTooltip}>{children}</div>;
 };
 
 const SliderComponent = () => {
   const [sliderRange, setSliderRange] = useState([10, 1000000]);
-
   return (
     <div>
       <Slider

@@ -14,9 +14,9 @@ const Nav = () => {
 
         <div className="flex items-center gap-5">
           <Link href="/notification">
-            <div className="cursor-pointer rounded-full border-2 border-gray-300 p-3">
-              <Bell />
-              <div className="h-3 w-3 bg-red-500 rounded-full text-[8px] text-red-500 font-bold absolute top-5 md:top-6 z-20 right-[110px] md:right-[135px]"></div>
+            <div className="cursor-pointer rounded-full border-2 border-gray-300 p-2">
+              <Bell size={17} />
+              <div className="h-3 w-3 bg-red-500 rounded-full text-[8px] text-red-500 font-bold absolute top-5 md:top-6 z-20 right-[110px] md:right-[135px] hidden"></div>
             </div>
           </Link>
           <Link href="/auth/login">

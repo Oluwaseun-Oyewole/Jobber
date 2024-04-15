@@ -34,12 +34,6 @@ const LoginComponent = () => {
         password: values.password,
       });
 
-      // const response = await signIn("credentials", {
-      //   email: values.email,
-      //   password: values.password,
-      //   redirect: false,
-      // });
-      console.log("response -- s-- ", response);
       if (response?.status === 200) {
         resetForm();
         router.push("/dashboard");

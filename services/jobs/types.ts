@@ -19,6 +19,8 @@ enum Position {
 }
 
 export interface IJob {
+  id: string;
+  location: string;
   imageSrc: string;
   jobTitle: string;
   jobType: JobType;
@@ -27,6 +29,7 @@ export interface IJob {
   jobInfo: string;
   experience: Experience;
   position: Position;
+  companyName: string;
 }
 
 export interface JobResponseInterface {

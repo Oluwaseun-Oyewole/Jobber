@@ -26,7 +26,7 @@ enum Experience {
 }
 
 enum Position {
-  onSite
+  Onsite
   Remote
   Hybrid
 }
@@ -61,7 +61,6 @@ model User{
     updatedAt   DateTime @default(now())  @map(name: "updated_at")
     emailVerified  DateTime? @map(name:"email_verified")
     accounts        Account[]
-    
     @@map(name:"users")
 }
 
@@ -74,10 +73,16 @@ model Job{
   datePosted DateTime @default(now()) @map(name:"date_posted")
   salary     Int?   
   jobInfo    String @map(name:"job_description")
+  aboutJob    String?
+  aboutJobRole  String?
+  aboutJobSkills  String?
+  aboutJobCompensation  String?
+  hired       Int?
+  benefit     String?
+  process     String?
+  location    String?
   experience Experience 
   position Position
   companyName String?
-
   @@map(name:"jobs")
-
 }

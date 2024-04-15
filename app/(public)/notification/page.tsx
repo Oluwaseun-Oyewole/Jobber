@@ -16,7 +16,7 @@ const Notification = () => {
             searches.
           </p>
           <Link href="/">
-            <Button className="bg-lightBlue hover:bg-lightBlue">
+            <Button className="bg-lightBlue hover:bg-deepBlue">
               Find Jobs
             </Button>
           </Link>

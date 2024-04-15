@@ -1,10 +1,10 @@
 "use client";
 import { useGetAllJobsQuery } from "@/app/store/query";
-import Description from "@/components/custom/description";
 import Filter from "@/components/custom/filter";
 import Jobs from "@/components/custom/jobs";
 import Nav from "@/components/custom/nav";
 import { useSearchParams } from "next/navigation";
+import Description from "../description";
 
 const AllJobs = () => {
   const searchParams = useSearchParams();

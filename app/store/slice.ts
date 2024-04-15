@@ -3,8 +3,11 @@ import { JobSlice as api } from "./query";
 
 const initialState = {
   data: [],
+  jobDetails: {},
   isLoading: false,
+  isDescLoader: false,
   isFilter: false,
+  id: "",
 };
 
 const jobSlice = createSlice({
@@ -16,6 +19,9 @@ const jobSlice = createSlice({
     },
     startFilter(state) {
       state.isFilter = true;
+    },
+    getJobId(state, action) {
+      state.id = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -41,9 +47,19 @@ const jobSlice = createSlice({
         state.data = payload?.data;
       },
     );
+    builder.addMatcher(api.endpoints.getJobDetails.matchPending, (state) => {
+      state.isDescLoader = true;
+    });
+    builder.addMatcher(
+      api.endpoints.getJobDetails.matchFulfilled,
+      (state, { payload }) => {
+        state.isDescLoader = false;
+        state.jobDetails = payload?.data;
+      },
+    );
   },
 });
 
-export const { stopFilter, startFilter } = jobSlice.actions;
+export const { stopFilter, startFilter, getJobId } = jobSlice.actions;
 
 export default jobSlice.reducer;

@@ -1,3 +1,12 @@
+-- CreateEnum
+CREATE TYPE "JobType" AS ENUM ('FullTime', 'PartTime', 'Internship', 'Volunterr', 'Contract');
+
+-- CreateEnum
+CREATE TYPE "Experience" AS ENUM ('Fresh', 'Beginner', 'Intermediate', 'Expert', 'Guru');
+
+-- CreateEnum
+CREATE TYPE "Position" AS ENUM ('Onsite', 'Remote', 'Hybrid');
+
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
@@ -23,13 +32,36 @@ CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "name" TEXT,
     "password" TEXT,
-    "image" TEXT,
     "email" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "email_verified" TIMESTAMP(3),
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "jobs" (
+    "id" TEXT NOT NULL,
+    "image_src" TEXT,
+    "job_title" TEXT NOT NULL,
+    "job_type" "JobType" NOT NULL,
+    "date_posted" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "salary" INTEGER,
+    "job_description" TEXT NOT NULL,
+    "aboutJob" TEXT,
+    "aboutJobRole" TEXT,
+    "aboutJobSkills" TEXT,
+    "aboutJobCompensation" TEXT,
+    "hired" INTEGER,
+    "benefit" TEXT,
+    "process" TEXT,
+    "location" TEXT,
+    "experience" "Experience" NOT NULL,
+    "position" "Position" NOT NULL,
+    "companyName" TEXT,
+
+    CONSTRAINT "jobs_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
