@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async (req: NextRequest) => {
   const { searchParams } = await new URL(req.url);
   const id = searchParams.get("id")!;
+
   try {
     const job = await prisma.job.findUnique({
       where: {

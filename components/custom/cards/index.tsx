@@ -58,7 +58,7 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
           }
 
           return (
-            <>
+            <div key={job.id}>
               <Link href={`/job-description/${job.id}`} className="xl:hidden">
                 <div className="min-h-[260px] bg-white rounded-lg shadow-md hover:shadow-lg cursor-pointer flex flex-col justify-between px-5 py-6">
                   <div className="flex justify-between items-center">
@@ -97,7 +97,9 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                   </div>
 
                   <div>
-                    <p className="text-sm font-[300]">{job.jobInfo}</p>
+                    <p className="text-sm font-[300]">
+                      {truncate(job.jobInfo, 100)}
+                    </p>
                   </div>
 
                   <div className="flex justify-between items-center font-[400] text-sm">
@@ -183,7 +185,7 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           );
         })}
       </div>

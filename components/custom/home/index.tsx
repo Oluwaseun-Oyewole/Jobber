@@ -9,8 +9,8 @@ import Description from "../description";
 const AllJobs = () => {
   const searchParams = useSearchParams();
   const searchParamObject = Object.fromEntries(searchParams);
-  const resultsPerPage = Number(searchParamObject.resultsPerPage);
-  const page = Number(searchParams.get("page"));
+  const resultsPerPage = +searchParamObject.resultsPerPage;
+  const page = +searchParams.get("page")!;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data } = useGetAllJobsQuery({

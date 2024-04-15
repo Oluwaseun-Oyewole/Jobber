@@ -17,6 +17,12 @@ const Description = () => {
     allJobs?.data?.data?.jobs[0]?.id ?? "clv0scy6e0000ljqcrs2zs1sz";
   const { data } = useGetJobDetailsQuery(id ? id : firstJobID);
 
+  if (!id) {
+    <div className="hidden md:block bg-white rounded-lg h-[84vh] overflow-scroll shadow-md p-5 font-[400]">
+      <p>No Found for this {id} found</p>
+    </div>;
+  }
+
   return (
     <div className="hidden md:block bg-white rounded-lg h-[84vh] overflow-scroll shadow-md p-5 font-[400]">
       {isDescLoader || isLoading ? (

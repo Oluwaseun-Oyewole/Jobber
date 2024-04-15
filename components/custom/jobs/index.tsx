@@ -117,7 +117,7 @@ const Jobs = () => {
         <div className="pt-6">
           <div className="flex items-center justify-between pb-3">
             {/* <h1 className="text-sm md:text-lg">Search Results</h1> */}
-            <div className="hidden">
+            <div>
               <PaginationWrapper
                 total={data?.totalResults ?? 0}
                 setCurrentPage={setCurrentPage}
