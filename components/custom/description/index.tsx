@@ -14,7 +14,7 @@ const Description = () => {
   );
   const allJobs = useGetAllJobsQuery({ page: 1, resultsPerPage: 5 });
   const firstJobID =
-    allJobs?.data?.data?.jobs[0]?.id ?? "cluwp4i730000il6je53faaog";
+    allJobs?.data?.data?.jobs[0]?.id ?? "clv0scy6e0000ljqcrs2zs1sz";
   const { data } = useGetJobDetailsQuery(id ? id : firstJobID);
 
   return (
