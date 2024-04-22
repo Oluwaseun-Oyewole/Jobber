@@ -9,6 +9,27 @@ import { useEffect, useState } from "react";
 import Saved from "../../../assets/fav.svg";
 import Share from "../../../assets/share.svg";
 
+const JobTypeResponse = (str: any) => {
+  switch (str) {
+    case "contract":
+      return "Contract";
+    case "fulltime":
+      return "FullTime";
+
+    case "internship":
+      return "Internship";
+
+    case "parttime":
+      return "PartTime";
+
+    case "volunteer":
+      return "Volunteer";
+
+    default:
+      break;
+  }
+};
+
 const Description = () => {
   const { id, isDescLoader, isPaginate, country, isSearchTrigger } =
     useAppSelector((state) => state.rootReducer.jobs);
@@ -108,7 +129,9 @@ const Description = () => {
                     <div className="flex justify-between items-center">
                       <div>
                         <h1 className="font-bold">Job Type</h1>
-                        <p className="text-sm pt-1">{data?.data?.jobType}</p>
+                        <p className="text-sm pt-1">
+                          {JobTypeResponse(data?.data?.jobType)}
+                        </p>
                       </div>
                       <div>
                         <h1 className="font-bold">Experience</h1>
@@ -136,7 +159,7 @@ const Description = () => {
                   <div className="py-6 border__bottom font-[300]">
                     <h2 className="font-bold text-xl">Base Salary</h2>
                     <p className="text-sm pt-4 leading-5 text-gray-600">
-                      {data?.data?.salary}K
+                      &#36;{data?.data?.salary}K/month
                     </p>
 
                     <Link href={`/job-description/${data?.data?.id}`}>

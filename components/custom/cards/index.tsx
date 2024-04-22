@@ -138,7 +138,7 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                         height={50}
                       />
                       <div>
-                        <h1>{job?.jobTitle}</h1>
+                        <h1 className="text-base">{job?.jobTitle}</h1>
                         <div className="flex items-center gap-2">
                           <p className="font-[300] text-sm py-1">
                             {job?.companyName}
@@ -173,7 +173,7 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                   <div className="flex justify-between items-center font-[400] text-sm">
                     <div className="flex gap-2 items-center">
                       <Image src={Dollar} alt="netflix" />
-                      <p className="text-sm font-[300]">${job?.salary}/month</p>
+                      <p className="font-[300]">${job?.salary}/month</p>
                     </div>
                     <div>
                       <p className="text-sm font-[300]">2 mins ago</p>
@@ -197,7 +197,7 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                       height={50}
                     />
                     <div>
-                      <h1>{job?.jobTitle}</h1>
+                      <h1 className="text-base">{job?.jobTitle}</h1>
                       <div className="flex items-center gap-2">
                         <p className="font-[300] text-sm py-1">
                           {job?.companyName}
@@ -217,16 +217,16 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                 </div>
 
                 <div>
-                  <p className="font-[300] text-sm">{job?.location}</p>
+                  <p className="font-[400] text-xs">{job?.location}</p>
                 </div>
 
-                <div className="flex justify-between items-center w-[90%] font-[400] text-sm">
-                  <h3 className=" bg-lightGray rounded-sm py-2 px-3">
+                <div className="flex justify-between items-center w-[90%] font-[400] text-xs mt-2">
+                  <h3 className=" bg-lightGray rounded-sm py-2 px-4">
                     {JobTypeResponse(job?.jobType)}
                   </h3>
                 </div>
 
-                <div>
+                <div className="py-2">
                   <p className="text-sm font-[300]">
                     {truncate(job?.jobInfo, 70)}
                   </p>
@@ -235,7 +235,9 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                 <div className="flex justify-between items-center font-[400] text-sm">
                   <div className="flex gap-2 items-center">
                     <Image src={Dollar} alt="netflix" />
-                    <p className="text-sm font-[300]">${job?.salary}K/month</p>
+                    <p className="text-[13px] font-[300]">
+                      &#36;{job?.salary}K/month
+                    </p>
                   </div>
                   <div>
                     <p className="text-sm font-[300]">
