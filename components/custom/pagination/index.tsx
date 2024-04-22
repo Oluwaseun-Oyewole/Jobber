@@ -1,4 +1,6 @@
+"use client";
 import { useGetAllJobsQuery } from "@/app/store/query";
+import { startPagination, stopPagination } from "@/app/store/slice";
 import { Button } from "@/components/ui/button";
 import {
   Pagination,
@@ -7,17 +9,15 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hook";
+import { useEffect, useState } from "react";
 
 type IPagination = {
   total: number;
   totalResults: number;
   page: number;
-  currentPage: number;
   resultsPerPage: number;
   totalPages: number;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
 };
 
 const PaginationWrapper = ({
@@ -26,75 +26,80 @@ const PaginationWrapper = ({
   totalResults,
   page,
   totalPages,
-  currentPage,
-  setCurrentPage,
 }: IPagination) => {
+  const [currentPage, setCurrentPage] = useState<number>(page);
   const [lowBound, upBound] = [
     totalResults === 0 ? 0 : (page - 1) * resultsPerPage + 1,
     totalResults > page * resultsPerPage ? page * resultsPerPage : totalResults,
   ];
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
-  const pathname = usePathname();
+  const { isPaginate, country, isSearchTrigger } = useAppSelector(
+    (state: any) => state.rootReducer.jobs,
+  );
+  const dispatch = useAppDispatch();
+  const [myState, setState] = useState({
+    page: 0,
+    resultsPerPage: 0,
+    location: "",
+  }); // initialize with skipToken to skip at first
+
+  useGetAllJobsQuery(myState, {
+    skip:
+      (myState.page <= 0 && myState.resultsPerPage <= 0 && !isPaginate) ||
+      isSearchTrigger,
+  });
+
+  const changePage = (page: number) => {
+    dispatch(startPagination());
+    if (isSearchTrigger) return;
+    else {
+      setState({ page: page, resultsPerPage: 2, location: country });
+    }
+  };
 
   const goToNextPage = () => {
-    const params = new URLSearchParams(searchParams);
-    if (currentPage < totalPages) {
-      params.set("page", currentPage.toString());
-      setCurrentPage(currentPage + 1);
-      replace(`${pathname}?${params.toString()}`);
-    }
+    setCurrentPage((prevPage) => prevPage + 1);
+    changePage(currentPage + 1);
   };
 
   const goToPrevPage = () => {
-    const params = new URLSearchParams(searchParams);
-    if (currentPage > 1) {
-      params.set("page", currentPage.toString());
-      setCurrentPage(currentPage - 1);
-      replace(`${pathname}?${params.toString()}`);
-    }
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    changePage(currentPage - 1);
   };
-  //   console.log("page", page);
-  //   console.log("current page", currentPage);
-  //   console.log("total pages", totalPages);
 
-  useGetAllJobsQuery(
-    { page: currentPage, resultsPerPage: 5 },
-    { skip: !page || currentPage < 1 },
-  );
+  useEffect(() => {
+    if (currentPage > 1) {
+      dispatch(stopPagination());
+    }
+  }, [isPaginate, currentPage]);
 
-  //   useEffect(() => {
-  //     if (currentPage !== 0) {
-  //       refetch();
-  //     }
-  //   }, [currentPage]);
+  // console.log("is paginate", isPaginate);
 
   return (
     <div className="flex items-center">
-      <Pagination className="flex items-center gap-3">
+      <Pagination className="flex items-center gap-3 text-xs">
         <div className="font-normal">
           {lowBound} to {upBound} of {total}
         </div>
-        <PaginationContent>
+        <PaginationContent className="flex gap-3">
           <PaginationItem>
             <Button
               onClick={goToPrevPage}
-              disabled={page <= 1}
-              className="!px-0 flex items-center justify-center disabled:cursor-not-allowed bg-lightBlue hover:bg-deepBlue"
+              disabled={currentPage <= 1}
+              className="!px-0 flex items-center justify-center bg-gray-200 disabled:bg-transparent hover:bg-transparent"
             >
-              <PaginationPrevious className="disabled:cursor-not-allowed bg-lightBlue hover:bg-deepBlue text-white hover:text-white rounded-lg" />
+              <PaginationPrevious className="text-black rounded-lg !py-0 text-xs" />
             </Button>
           </PaginationItem>
 
-          <Button
-            disabled={page >= totalPages}
-            className="!px-0 flex items-center justify-center disabled:cursor-not-allowed bg-lightBlue hover:bg-deepBlue"
-            onClick={goToNextPage}
-          >
-            <PaginationItem>
-              <PaginationNext className="disabled:cursor-not-allowed bg-lightBlue hover:bg-deepBlue text-white hover:text-white rounded-lg" />
-            </PaginationItem>
-          </Button>
+          <PaginationItem>
+            <Button
+              disabled={currentPage >= totalPages}
+              className="!px-0 flex items-center justify-center !bg-gray-200 disabled:bg-transparent"
+              onClick={goToNextPage}
+            >
+              <PaginationNext className="text-black rounded-lg !py-0 text-xs" />
+            </Button>
+          </PaginationItem>
         </PaginationContent>
       </Pagination>
     </div>

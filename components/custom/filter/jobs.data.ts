@@ -6,10 +6,11 @@ export const sortBy = [
 ];
 
 export const jobType = [
-  { id: 1, label: "Full-Time", value: "Full-Time", checked: false },
-  { id: 2, label: "Part-Time", value: "Part-Time", checked: false },
-  { id: 3, label: "Internship", value: "Internship", checked: false },
-  { id: 4, label: "Volunteer", value: "Volunteer", checked: false },
+  { id: 1, label: "FullTime", value: "fulltime", checked: false },
+  { id: 2, label: "PartTime", value: "parttime", checked: false },
+  { id: 3, label: "Internship", value: "internship", checked: false },
+  { id: 4, label: "Volunteer", value: "volunteer", checked: false },
+  { id: 5, label: "Contract", value: "contract", checked: false },
 ];
 
 export const experience = [
@@ -20,7 +21,7 @@ export const experience = [
 ];
 
 export const position = [
-  { id: 1, label: "On-Site", value: "On-Site", checked: false },
+  { id: 1, label: "Onsite", value: "Onsite", checked: false },
   { id: 2, label: "Hybrid", value: "Hybrid", checked: false },
   { id: 3, label: "Remote", value: "Remote", checked: false },
 ];

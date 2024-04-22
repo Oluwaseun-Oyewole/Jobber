@@ -24,7 +24,7 @@ const Input = React.forwardRef<HTMLInputElement, IProps>(
           {...props}
         />
         {type === "search" && (
-          <Search className="text-sm absolute top-5 w-4 h-4 left-3 text-gray-400" />
+          <Search className="text-sm absolute top-[20px] w-4 h-4 left-3 text-gray-400" />
         )}
       </div>
     );

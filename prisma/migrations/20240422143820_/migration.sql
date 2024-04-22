@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "JobType" AS ENUM ('FullTime', 'PartTime', 'Internship', 'Volunterr', 'Contract');
+CREATE TYPE "JobType" AS ENUM ('fulltime', 'parttime', 'internship', 'volunteer', 'contract');
 
 -- CreateEnum
 CREATE TYPE "Experience" AS ENUM ('Fresh', 'Beginner', 'Intermediate', 'Expert', 'Guru');
@@ -49,17 +49,18 @@ CREATE TABLE "jobs" (
     "date_posted" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "salary" INTEGER,
     "job_description" TEXT NOT NULL,
-    "aboutJob" TEXT,
-    "aboutJobRole" TEXT,
-    "aboutJobSkills" TEXT,
-    "aboutJobCompensation" TEXT,
+    "jobRole" TEXT,
+    "skills" TEXT,
+    "compensation" TEXT,
     "hired" INTEGER,
-    "benefit" TEXT,
     "process" TEXT,
     "location" TEXT,
     "experience" "Experience" NOT NULL,
     "position" "Position" NOT NULL,
     "companyName" TEXT,
+    "aboutCompany" TEXT,
+    "country" TEXT,
+    "applicationLink" TEXT,
 
     CONSTRAINT "jobs_pkey" PRIMARY KEY ("id")
 );

@@ -1,3 +1,6 @@
+"use client";
+import { useGetAllJobsQuery } from "@/app/store/query";
+import { stopPagination } from "@/app/store/slice";
 import {
   Select,
   SelectContent,
@@ -5,10 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAppSelector } from "@/lib/store/hook";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hook";
 import { JobResponseBody } from "@/services/jobs/types";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Cards from "../cards";
 import { experience, jobType, position, sortBy } from "../filter/jobs.data";
 import PaginationWrapper from "../pagination";
@@ -16,19 +19,55 @@ import Search from "../search";
 import SliderComponent from "../slider";
 
 const Jobs = () => {
-  const { data, isLoading } = useAppSelector(
-    (state: any) => state.rootReducer.jobs,
+  const { isPaginate, isLoading, country, isSearchTrigger } = useAppSelector(
+    (state) => state.rootReducer.jobs,
   );
+  const data: any = useAppSelector((state) => state.rootReducer.jobs.data);
+  const [sliderRange, setSliderRange] = useState([500, 10000]);
   const searchParams = useSearchParams();
   const page = +searchParams.get("page")!;
-  const [currentPage, setCurrentPage] = useState(page > 0 ? page : 1);
+  const resultsPerPage = +searchParams.get("resultsPerPage")!;
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(stopPagination());
+  }, []);
 
-  // const page = currentPage <= 0 ? 1 : currentPage;
-  // const resultsPerPage = useState(+searchParams.get("resultsPerPage")!);
+  const [myState, setState] = useState({
+    resultsPerPage: 0,
+    page: 0,
+    location: "",
+  });
+  useGetAllJobsQuery(myState, {
+    skip:
+      !myState.page ||
+      !myState.resultsPerPage ||
+      !myState.location ||
+      isPaginate ||
+      isSearchTrigger,
+  });
+
+  const fetchJobs = async () => {
+    if (isSearchTrigger) return;
+    else {
+      await setState({
+        page: page <= 0 ? 1 : page,
+        resultsPerPage:
+          !resultsPerPage || resultsPerPage < 0 ? 4 : resultsPerPage,
+        location: country,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!country || isSearchTrigger) return;
+    else {
+      fetchJobs();
+    }
+  }, [country]);
 
   return (
     <>
-      <div className="mx-4 h-[84vh] overflow-y-scroll flex flex-col gap-3">
+      <div className="mx-4 overflow-y-scroll flex flex-col gap-3">
         <div className="bg-lightGray sticky top-0 bg-transparent left-0 z-10">
           <Search />
         </div>
@@ -111,21 +150,21 @@ const Jobs = () => {
         <div className="md:hidden">
           <div className="w-full">
             <h2 className="font-[300] py-2 text-sm">Salary Range</h2>
-            <SliderComponent />
+            <SliderComponent
+              sliderRange={sliderRange}
+              setSliderRange={setSliderRange}
+            />
           </div>
         </div>
         <div className="pt-6">
           <div className="flex items-center justify-between pb-3">
-            {/* <h1 className="text-sm md:text-lg">Search Results</h1> */}
             <div>
               <PaginationWrapper
                 total={data?.totalResults ?? 0}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-                resultsPerPage={data?.resultsPerPage ?? 10}
+                resultsPerPage={data?.resultsPerPage ?? 4}
                 totalResults={data?.totalResults ?? 0}
-                page={data?.page ?? currentPage}
-                totalPages={data?.totalPages}
+                page={data?.page ?? 1}
+                totalPages={data?.totalPages ?? 0}
               />
             </div>
             <p className="text-sm text-gray-400">
@@ -136,7 +175,6 @@ const Jobs = () => {
           <Cards data={data as JobResponseBody[]} isLoading={isLoading} />
         </div>
       </div>
-      {/* <Description /> */}
     </>
   );
 };

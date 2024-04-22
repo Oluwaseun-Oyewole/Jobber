@@ -10,11 +10,11 @@ datasource db {
 
 
 enum JobType {
- FullTime
- PartTime
- Internship
- Volunterr
- Contract
+ fulltime
+ parttime
+ internship
+ volunteer
+ contract
 }
 
 enum Experience {
@@ -73,16 +73,18 @@ model Job{
   datePosted DateTime @default(now()) @map(name:"date_posted")
   salary     Int?   
   jobInfo    String @map(name:"job_description")
-  aboutJob    String?
-  aboutJobRole  String?
-  aboutJobSkills  String?
-  aboutJobCompensation  String?
+  jobRole  String?
+  skills  String?
+  compensation  String?
   hired       Int?
-  benefit     String?
   process     String?
   location    String?
   experience Experience 
   position Position
   companyName String?
+  aboutCompany  String?
+  country     String?
+  applicationLink String?
+  
   @@map(name:"jobs")
 }

@@ -1,21 +1,37 @@
-import { useGetAllJobsQuery, useGetJobDetailsQuery } from "@/app/store/query";
+import { useGetJobDetailsQuery } from "@/app/store/query";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAppSelector } from "@/lib/store/hook";
 import { truncate } from "@/utils/helper";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import Saved from "../../../assets/fav.svg";
 import Share from "../../../assets/share.svg";
 
 const Description = () => {
-  const { id, isDescLoader, isLoading } = useAppSelector(
-    (state) => state.rootReducer.jobs,
-  );
-  const allJobs = useGetAllJobsQuery({ page: 1, resultsPerPage: 5 });
-  const firstJobID =
-    allJobs?.data?.data?.jobs[0]?.id ?? "clv0scy6e0000ljqcrs2zs1sz";
-  const { data } = useGetJobDetailsQuery(id ? id : firstJobID);
+  const { id, isDescLoader, isPaginate, country, isSearchTrigger } =
+    useAppSelector((state) => state.rootReducer.jobs);
+  const jobData: any = useAppSelector((state) => state.rootReducer.jobs.data);
+  const firstJobID = jobData?.jobs && jobData?.jobs[0]?.id;
+  const [myState, setState] = useState({ id: "", location: country });
+  const { data } = useGetJobDetailsQuery(myState, {
+    skip: !myState.id || isPaginate,
+  });
+
+  const getDetails = async () => {
+    if (isSearchTrigger) return;
+    else {
+      setState({ id: id ? id : firstJobID, location: country });
+    }
+  };
+
+  useEffect(() => {
+    if (!firstJobID || isSearchTrigger) return;
+    else {
+      getDetails();
+    }
+  }, [id, firstJobID]);
 
   if (!id) {
     <div className="hidden md:block bg-white rounded-lg h-[84vh] overflow-scroll shadow-md p-5 font-[400]">
@@ -25,7 +41,7 @@ const Description = () => {
 
   return (
     <div className="hidden md:block bg-white rounded-lg h-[84vh] overflow-scroll shadow-md p-5 font-[400]">
-      {isDescLoader || isLoading ? (
+      {isDescLoader ? (
         <div className="flex flex-col justify-between  h-[80vh] items-center">
           <div className="flex items-center space-x-4">
             <Skeleton className="h-12 w-12 rounded-full" />
@@ -51,9 +67,11 @@ const Description = () => {
         </div>
       ) : (
         <>
-          {data?.data === null ? (
+          {data?.data === null || !firstJobID ? (
             <div className="h-[70vh] flex items-center justify-center">
-              <div>No jobs available</div>
+              <div>
+                <p>No job available</p>
+              </div>
             </div>
           ) : (
             <>
@@ -77,7 +95,7 @@ const Description = () => {
                     <h1 className="font-bolder text-xl">
                       {data?.data?.jobTitle}
                     </h1>
-                    <div className="flex text-sm font-[300] text-gray-500">
+                    <div className="flex gap-3 text-sm font-[300] text-gray-500">
                       <p>{data?.data?.companyName}</p>
                       <p>{data?.data?.location}</p>
                     </div>
@@ -86,7 +104,7 @@ const Description = () => {
                       {data?.data?.hired} to be hired
                     </p>
                   </div>
-                  <div className="py-6 border__bottom font-[300] flex flex-col gap-5">
+                  <div className="py-6 border__bottom font-[300] flex flex-col gap-5 w-[90%]">
                     <div className="flex justify-between items-center">
                       <div>
                         <h1 className="font-bold">Job Type</h1>

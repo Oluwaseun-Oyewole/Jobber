@@ -1,9 +1,9 @@
 enum JobType {
-  "FullTime",
-  "PartTime",
-  "Internship",
-  "Volunteer",
-  "Contract",
+  "fulltime",
+  "parttime",
+  "internship",
+  "volunteer",
+  "contract",
 }
 enum Experience {
   "Fresh",
@@ -20,16 +20,22 @@ enum Position {
 
 export interface IJob {
   id: string;
-  location: string;
   imageSrc: string;
   jobTitle: string;
   jobType: JobType;
   datePosted: string;
   salary: number;
   jobInfo: string;
+  jobRole: string;
   experience: Experience;
+  compensation: string;
+  process: string;
   position: Position;
   companyName: string;
+  location: string;
+  country: string;
+  aboutCompany: string;
+  applicationLink: string;
 }
 
 export interface JobResponseInterface {
@@ -51,4 +57,5 @@ export interface JobResponseBody {
 export interface JobRequestBody {
   resultsPerPage: number;
   page: number;
+  location: string;
 }

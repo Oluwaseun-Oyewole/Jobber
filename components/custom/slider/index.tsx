@@ -1,7 +1,7 @@
 "use client";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 interface SliderTooltipProps {
   children?: React.ReactNode;
@@ -26,14 +26,20 @@ const SliderTooltip: React.FC<SliderTooltipProps> = ({
   return <div style={themeTooltip}>{children}</div>;
 };
 
-const SliderComponent = () => {
-  const [sliderRange, setSliderRange] = useState([10, 1000000]);
+const SliderComponent = ({
+  sliderRange,
+  setSliderRange,
+}: {
+  sliderRange: number[];
+  setSliderRange: Dispatch<SetStateAction<number[]>>;
+}) => {
+  // const [sliderRange, setSliderRange] = useState([10, 1000000]);
   return (
     <div>
       <Slider
-        defaultValue={[10, 1000000]}
-        min={10}
-        max={1000000}
+        defaultValue={[500, 10000]}
+        min={500}
+        max={10000}
         // value={[100, 100000]}s
         range
         onChange={(e: any) => setSliderRange(e)}
@@ -51,8 +57,8 @@ const SliderComponent = () => {
         }}
       />
       <div className="flex items-center justify-between mt-6 text-deepBlue font-medium text-[14px]">
-        <p>&#36;{sliderRange[0]}</p>
-        <p>&#36;{sliderRange[1]}</p>
+        <p>&#36;{sliderRange && sliderRange[0]}</p>
+        <p>&#36;{sliderRange && sliderRange[1]}</p>
       </div>
     </div>
   );

@@ -1,22 +1,47 @@
 "use client";
-import { useGetAllJobsQuery } from "@/app/store/query";
+import { getCountryName, getCountryStates } from "@/app/store/thunk";
 import Filter from "@/components/custom/filter";
 import Jobs from "@/components/custom/jobs";
 import Nav from "@/components/custom/nav";
-import { useSearchParams } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hook";
+import { useEffect, useState } from "react";
 import Description from "../description";
 
 const AllJobs = () => {
-  const searchParams = useSearchParams();
-  const searchParamObject = Object.fromEntries(searchParams);
-  const resultsPerPage = +searchParamObject.resultsPerPage;
-  const page = +searchParams.get("page")!;
+  const country: any = useAppSelector(
+    (state) => state.rootReducer.jobs.country,
+  );
+  const dispatch = useAppDispatch();
+  const [coordinates, setCoordinate] = useState({ lat: 0, lng: 0 });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data } = useGetAllJobsQuery({
-    resultsPerPage: !resultsPerPage || resultsPerPage <= 0 ? 5 : resultsPerPage,
-    page: !page || page <= 0 ? 1 : page,
-  });
+  useEffect(() => {
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          const { lat, lng } = pos;
+          setCoordinate({ lat, lng });
+        },
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (coordinates.lat <= 0 || coordinates.lng <= 0) return;
+    else {
+      dispatch(getCountryName({ lat: coordinates.lat, lng: coordinates.lng }));
+    }
+  }, [dispatch, coordinates.lat, coordinates.lng]);
+
+  useEffect(() => {
+    if (!country) return;
+    else {
+      dispatch(getCountryStates({ country }));
+    }
+  }, [dispatch, country]);
 
   return (
     <>

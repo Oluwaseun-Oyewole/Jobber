@@ -1,5 +1,6 @@
 "use client";
 import { useGetJobDetailsQuery } from "@/app/store/query";
+import { useAppSelector } from "@/lib/store/hook";
 import Image from "next/image";
 import Saved from "../../../../assets/fav.svg";
 import Share from "../../../../assets/share.svg";
@@ -11,7 +12,8 @@ interface IProps {
 }
 
 const JobDetails = ({ params: { id } }: IProps) => {
-  const { data } = useGetJobDetailsQuery(id);
+  const { country } = useAppSelector((state) => state.rootReducer.jobs);
+  const { data } = useGetJobDetailsQuery({ location: country, id });
 
   if (!data?.data || data?.data === null) {
     return (
@@ -94,7 +96,7 @@ const JobDetails = ({ params: { id } }: IProps) => {
           <div className="py-2">
             <h3>About Data Services at Relativity</h3>
             <p className="font-[300] text-sm leading-6">
-              {data?.data?.aboutJob}
+              {data?.data?.jobInfo}
             </p>
           </div>
           <div className="py-2">
