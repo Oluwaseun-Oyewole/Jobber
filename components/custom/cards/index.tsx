@@ -50,8 +50,6 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
     { skip: page <= 0 || resultsPerPage <= 0 || !country },
   );
 
-  console.log("page --", page);
-  console.log("resultsPrPage", resultsPerPage);
   const handleRefetch = () => {
     refetch();
     router.push("/");

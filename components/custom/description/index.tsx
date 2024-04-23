@@ -43,7 +43,7 @@ const Description = () => {
   const getDetails = async () => {
     if (isSearchTrigger) return;
     else {
-      setState({ id: id ? id : firstJobID, location: country });
+      await setState({ id: id ? id : firstJobID, location: country });
     }
   };
 
