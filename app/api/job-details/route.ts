@@ -1,3 +1,6 @@
+export const maxDuration = 10;
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
