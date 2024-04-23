@@ -12,7 +12,8 @@
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext ts --ext tsx --ext js",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.5.2",
@@ -55,7 +56,7 @@
     "tailwindcss-animate": "^1.0.7",
     "use-debounce": "^10.0.0",
     "vaul": "^0.9.0",
-    "vercel": "^33.6.3",
+    "vercel": "^34.1.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
