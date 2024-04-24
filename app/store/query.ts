@@ -29,7 +29,8 @@ export const JobSlice = createApi({
   //   baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
   // }),
   baseQuery: dynamicBaseQuery,
-  tagTypes: ["Jobs", "JobFilter", "JobDetails", "JobSearch"],
+  tagTypes: ["JobFilter", "JobDetails", "JobSearch"],
+  // keepUnusedDataFor: 30,
   endpoints: (builder) => ({
     getAllJobs: builder.query({
       query: (query: JobRequestBody) => {
@@ -37,16 +38,20 @@ export const JobSlice = createApi({
           url: `jobs?resultsPerPage=${query.resultsPerPage}&page=${query.page}&location=${query.location}`,
         };
       },
-      providesTags: ["Jobs"],
+      // providesTags: ["Jobs"],
+      keepUnusedDataFor: 0,
     }),
     getJobsFilter: builder.query<any, Record<string, any> | undefined | null>({
       query: (args) => {
         return {
           url: `job-filter`,
           params: { ...args },
+          keepalive: true,
         };
       },
       providesTags: ["JobFilter"],
+      keepUnusedDataFor: 3,
+      // invalidatesTags: (_) => ["JobFilter"],
     }),
     getJobDetails: builder.query({
       query: (query: { id: string; location: string }) => {

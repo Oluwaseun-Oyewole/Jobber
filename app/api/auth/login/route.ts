@@ -15,14 +15,13 @@ export const POST = async (req: NextRequest) => {
   }
   const user = await getUserByEmail(email);
 
-  if (!user?.emailVerified) {
-    return NextResponse.json(
-      { message: "Please activate your account" },
-      { status: 409 },
-    );
-  }
-
   try {
+    if (user && !user?.emailVerified) {
+      return NextResponse.json(
+        { message: "Please activate your account", status: 501 },
+        { status: 501 },
+      );
+    }
     await signIn("credentials", {
       email,
       password,

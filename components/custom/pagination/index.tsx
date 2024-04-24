@@ -1,6 +1,6 @@
 "use client";
 import { useGetAllJobsQuery } from "@/app/store/query";
-import { startPagination, stopPagination } from "@/app/store/slice";
+import { startPagination } from "@/app/store/slice";
 import { Button } from "@/components/ui/button";
 import {
   Pagination,
@@ -10,7 +10,9 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hook";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 type IPagination = {
   total: number;
@@ -42,9 +44,19 @@ const PaginationWrapper = ({
     location: "",
   }); // initialize with skipToken to skip at first
 
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const updateURLFromSearchQuery = useDebouncedCallback((page: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", page.toString());
+    params.set("resultsPerPage", resultsPerPage.toString());
+    router.push(`?${params.toString()}`);
+  }, 50);
+
   useGetAllJobsQuery(myState, {
     skip:
-      (myState.page <= 0 && myState.resultsPerPage <= 0 && !isPaginate) ||
+      (myState.page <= 0 && myState.resultsPerPage <= 0) ||
+      !isPaginate ||
       isSearchTrigger,
   });
 
@@ -52,27 +64,32 @@ const PaginationWrapper = ({
     dispatch(startPagination());
     if (isSearchTrigger) return;
     else {
-      setState({ page: page, resultsPerPage: 2, location: country });
+      setState({ page, resultsPerPage, location: country });
     }
+    // dispatch(api.util.resetApiState());
   };
 
   const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
     changePage(currentPage + 1);
+    updateURLFromSearchQuery(currentPage + 1);
+    // dispatch(api.util.invalidateTags(["Jobs"]));
   };
 
   const goToPrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    setCurrentPage((prevPage) => prevPage - 1);
     changePage(currentPage - 1);
+    updateURLFromSearchQuery(currentPage - 1);
+    // dispatch(api.util.invalidateTags(["Jobs"]));
   };
 
-  useEffect(() => {
-    if (currentPage > 1) {
-      dispatch(stopPagination());
-    }
-  }, [isPaginate, currentPage]);
+  // useEffect(() => {
+  //   if (isPaginate) {
+  //     dispatch(stopPagination());
+  //   }
+  // }, [isPaginate]);
 
-  // console.log("is paginate", isPaginate);
+  console.log("is paginate", isPaginate);
 
   return (
     <div className="flex items-center">

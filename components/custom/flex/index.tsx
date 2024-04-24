@@ -13,7 +13,7 @@ export const FlexComponent: React.FC<FlexProps> = ({
   imagePosition = "left",
 }) => {
   return (
-    <div className="flex items-center flex-col lg:flex-row justify-between max-w-6xl mx-auto h-[90vh] overflow-y-scroll">
+    <div className="w-[76%] flex items-center flex-col lg:flex-row justify-between max-w-7xl mx-auto h-[90vh] overflow-y-scroll">
       <Image
         src={imageUrl}
         alt="Image"

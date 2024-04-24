@@ -13,6 +13,7 @@ const initialState = {
   country: "",
   states: [],
   isSearchTrigger: false,
+  notification: false,
 };
 
 const jobSlice = createSlice({
@@ -21,6 +22,12 @@ const jobSlice = createSlice({
   reducers: {
     stopFilter(state) {
       state.isFilter = false;
+    },
+    setNotification(state) {
+      state.notification = true;
+    },
+    removeNotification(state) {
+      state.notification = false;
     },
     startFilter(state) {
       state.isFilter = true;
@@ -129,6 +136,8 @@ export const {
   startSearch,
   stopSearch,
   removeJobId,
+  setNotification,
+  removeNotification,
 } = jobSlice.actions;
 
 export default jobSlice.reducer;

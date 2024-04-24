@@ -3,13 +3,20 @@ import Mail from "@/assets/email.svg";
 import Lock from "@/assets/lock.svg";
 import { Button } from "@/components/ui/button";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   RegisterFormValues,
   registerValidationSchema,
 } from "@/lib/schema/register";
 import { register } from "@/services/auth";
 import { Toastify } from "@/utils/toasts";
 import { Form, Formik } from "formik";
-import { UserRoundPlus } from "lucide-react";
+import { User, UserRoundPlus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -40,10 +47,11 @@ const RegisterComponent = () => {
         email: values.email,
         password: values.password,
         agreement: values.agreement,
+        userType: values.userType,
       });
       if (response?.status === 200) {
         Toastify.success(response.message);
-        router.push(`/auth/login`);
+        router.push(`/auth/account-verification?step=2`);
         resetForm();
       }
     } catch (error) {
@@ -54,7 +62,7 @@ const RegisterComponent = () => {
   return (
     <div className="bg-white w-[400px] md:w-[470px] min-h-[500px] shadow-lg rounded-xl my-10 md:my-0">
       <div className="flex flex-col items-center justify-around h-full p-5 md:p-10">
-        <h1 className="font-extrabold text-xl md:text-2xl">Registration</h1>
+        <h1 className="font-medium text-xl md:text-2xl">Registration</h1>
         <OAuth />
         <div className="w-full">
           <Formik
@@ -63,6 +71,7 @@ const RegisterComponent = () => {
               name: "",
               email: "",
               password: "",
+              userType: "JobSeeker",
             }}
             validate={validateForm}
             onSubmit={handleSubmit}
@@ -116,14 +125,45 @@ const RegisterComponent = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         placeholder="password"
-                        className="border-[1.7px] border-gray-300 !py-7 pl-12"
+                        className="border-[1.7px] border-gray-300 !py-7 pl-12 "
                       />
-
                       <Image
                         src={Lock}
                         alt="lock"
                         className="absolute top-4 left-4"
                       />
+                    </div>
+
+                    <div className="relative flex  items-center border-[1.7px] border-gray-300 rounded-lg">
+                      <Select
+                        name="userType"
+                        value={formik.values.userType}
+                        onValueChange={(value: string) => {
+                          formik.setFieldValue("userType", value);
+                        }}
+                      >
+                        <SelectTrigger className="w-full py-7 pl-14 font-light">
+                          <SelectValue
+                            placeholder="user"
+                            className="!font-light"
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem
+                            value="Employer"
+                            className="cursor-pointer font-light"
+                          >
+                            Employer
+                          </SelectItem>
+                          <SelectItem
+                            value="JobSeeker"
+                            className="cursor-pointer font-light"
+                          >
+                            Job-Seeker
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <User className="absolute left-4" />
                     </div>
                   </div>
 

@@ -36,7 +36,7 @@ export const GET = async (req: NextRequest) => {
   let resultsPerPage = +searchParams.get("resultsPerPage")!;
 
   if (!resultsPerPage || resultsPerPage === 0) {
-    resultsPerPage += 5;
+    resultsPerPage += 4;
   }
   if (!page || page <= 0) {
     page += 1;

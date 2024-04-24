@@ -2,7 +2,6 @@
 import Mail from "@/assets/email.svg";
 import Lock from "@/assets/lock.svg";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { LoginFormValues, loginValidationSchema } from "@/lib/schema/login";
 import { login } from "@/services/auth";
@@ -10,6 +9,7 @@ import { Form, Formik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ZodError } from "zod";
 import FormikController from "../formikController";
 import Loader from "../loader";
@@ -26,6 +26,22 @@ const LoginComponent = () => {
       }
     }
   };
+  const [credentials, setCredentials] = useState(false);
+  const email =
+    typeof window !== "undefined" ? localStorage.getItem("email") : "";
+  const password =
+    typeof window !== "undefined" ? localStorage.getItem("password") : "";
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const credential = localStorage.getItem("savedCredentials");
+      setCredentials(JSON.parse(credential!));
+    }
+  }, []);
+
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCredentials(e.target.checked);
+  };
 
   const handleSubmit = async (values: LoginFormValues, { resetForm }: any) => {
     try {
@@ -33,9 +49,19 @@ const LoginComponent = () => {
         email: values.email,
         password: values.password,
       });
-
       if (response?.status === 200) {
+        if (credentials) {
+          localStorage.setItem("email", values.email);
+          localStorage.setItem("password", values.password);
+          localStorage.setItem("savedCredentials", String(true));
+        } else {
+          localStorage.removeItem("email");
+          localStorage.removeItem("password");
+          localStorage.removeItem("savedCredentials");
+        }
+
         resetForm();
+        setCredentials(false);
         router.push("/dashboard");
       }
     } catch (error) {
@@ -46,13 +72,13 @@ const LoginComponent = () => {
   return (
     <div className="bg-white w-[400px] md:w-[470px] min-h-[500px] shadow-lg rounded-xl my-10 md:my-0">
       <div className="flex flex-col items-center justify-around p-5 md:p-10">
-        <h1 className="font-extrabold text-xl md:text-2xl">Login</h1>
+        <h1 className="font-medium text-xl md:text-2xl">Login</h1>
         <OAuth />
         <div className="w-full">
           <Formik
             initialValues={{
-              email: "",
-              password: "",
+              email: email ?? "",
+              password: password ?? "",
             }}
             validate={validateForm}
             onSubmit={handleSubmit}
@@ -99,9 +125,24 @@ const LoginComponent = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center w-full py-5 font-[300]">
-                    <div className="flex items-center gap-2">
-                      <Checkbox />
+                  <div className="flex justify-end items-end w-full font-[300] py-3">
+                    <Link
+                      href="/auth/account-verification?step=2"
+                      className="text-xs text-deepBlue font-[400]"
+                    >
+                      Activate your account
+                    </Link>
+                  </div>
+
+                  <div className="flex justify-between items-center w-full pb-5 font-[300]">
+                    <div className="flex items-center gap-1">
+                      <input
+                        type="checkbox"
+                        onChange={handleCheckboxChange}
+                        name="savedCredentials"
+                        checked={credentials}
+                        className="h-[15px] w-[15px] cursor-pointer"
+                      />
                       <Label>Remember Me?</Label>
                     </div>
                     <Link

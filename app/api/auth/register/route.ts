@@ -1,3 +1,4 @@
+import { sendOTPVerification } from "@/lib/otp";
 import prisma from "@/lib/prisma/prisma";
 import { getUserByEmail } from "@/lib/query";
 import {
@@ -10,7 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const POST = async (req: NextRequest) => {
   const body: RegisterFormValues = await req.json();
   const parsedFormValues = registerValidationSchema.safeParse(body);
-  const { name, email, password } = body;
+  const { name, email, password, userType } = body;
 
   if (!parsedFormValues.success) {
     return NextResponse.json(
@@ -29,14 +30,15 @@ export const POST = async (req: NextRequest) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await prisma.user.create({
-      data: { name, email, password: hashedPassword },
+      data: { name, email, password: hashedPassword, userType },
     });
+
+    await sendOTPVerification({ email, username: name });
     return NextResponse.json(
-      { message: "User registration successful", status: 200 },
+      { message: "An otp code has been sent to your mail", status: 200 },
       { status: 201 },
     );
   } catch (error) {
-    console.log("error from reg", error);
     return NextResponse.json(
       { message: "Oops, something went wrong" },
       { status: 501 },

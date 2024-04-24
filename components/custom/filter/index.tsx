@@ -1,5 +1,5 @@
 "use client";
-import { useGetJobsFilterQuery } from "@/app/store/query";
+import { useGetAllJobsQuery, useGetJobsFilterQuery } from "@/app/store/query";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -14,7 +14,7 @@ import { useAppSelector } from "@/lib/store/hook";
 import classNames from "classnames";
 import { useRouter, useSearchParams } from "next/navigation";
 import "rc-slider/assets/index.css";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import SliderComponent from "../slider";
 import { experience, jobType, position, sortBy } from "./jobs.data";
@@ -66,7 +66,9 @@ const CheckBoxInput = ({
 const Filter = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { country } = useAppSelector((state) => state.rootReducer.jobs);
+  const { country, isSearchTrigger } = useAppSelector(
+    (state) => state.rootReducer.jobs,
+  );
   const [jobExperience, setJobExperience] = useState(experience);
   const [jobPosition, setJobPosition] = useState(position);
   const [sliderRange, setSliderRange] = useState([500, 10000]);
@@ -76,6 +78,7 @@ const Filter = () => {
   const price_min = +searchParams.get("price_min")!;
   const price_max = +searchParams.get("price_max")!;
   const { selected, isSelected, onChange } = useMultiselect([]);
+  // const dispatch = useAppDispatch();
 
   // console.log("is selected -- ", selected);
   // console.log("is sslected", isSelected(selected[0]));
@@ -157,12 +160,12 @@ const Filter = () => {
       updateURLFromSearchQuery({
         jobType: selected[0],
         page: page <= 0 ? 1 : page,
-        resultsPerPage: resultsPerPage <= 0 ? 5 : resultsPerPage,
+        resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
       });
 
       setState({
         page: 1,
-        resultsPerPage: 5,
+        resultsPerPage: 4,
         jobType: selected[0],
         location: country,
       });
@@ -196,12 +199,12 @@ const Filter = () => {
     updateURLFromSearchQuery({
       experience: item.value,
       page: page <= 0 ? 1 : page,
-      resultsPerPage: resultsPerPage <= 0 ? 5 : resultsPerPage,
+      resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
     });
 
     setExperienceState({
       page: 1,
-      resultsPerPage: 5,
+      resultsPerPage: 4,
       experience: item.value,
       location: country,
     });
@@ -235,12 +238,12 @@ const Filter = () => {
     updateURLFromSearchQuery({
       position: item.value,
       page: page <= 0 ? 1 : page,
-      resultsPerPage: resultsPerPage <= 0 ? 5 : resultsPerPage,
+      resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
     });
 
     setPositionState({
       page: 1,
-      resultsPerPage: 5,
+      resultsPerPage: 4,
       position: item.value,
       location: country,
     });
@@ -279,29 +282,29 @@ const Filter = () => {
   // }, [checkboxState.filter__attr]);
 
   const handleRadioChange = (e: string) => {
+    // dispatch(api.util.invalidateTags(["JobFilter"]));
     updateURLFromSearchQuery({
       checkBox: e ? e : filter__attr,
       page: page <= 0 ? 1 : page,
-      resultsPerPage: resultsPerPage <= 0 ? 5 : resultsPerPage,
+      resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
     });
     if (price_min! <= 0) {
       setCheckboxState({
         page: page <= 0 ? 1 : page,
-        resultsPerPage: resultsPerPage <= 0 ? 5 : resultsPerPage,
+        resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
         filter__attr: e ? e : filter__attr,
         location: country,
       });
     } else {
       setCheckboxState({
         page: page <= 0 ? 1 : page,
-        resultsPerPage: resultsPerPage <= 0 ? 5 : resultsPerPage,
+        resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
         filter__attr: e ? e : filter__attr,
         location: country,
         price_min: price_min ? price_min : sliderRange[0],
         price_max: price_max ? price_max : sliderRange[1],
       });
     }
-    // dispatch(api.util.invalidateTags(["JobFilter"]));
   };
 
   type SliderType = {
@@ -333,12 +336,12 @@ const Filter = () => {
       price_min: sliderRange[0],
       price_max: sliderRange[1],
       page: page <= 0 ? 1 : page,
-      resultsPerPage: resultsPerPage <= 0 ? 5 : resultsPerPage,
+      resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
     });
     if (!filter__attr) {
       setSlider({
         page: page <= 0 ? 1 : page,
-        resultsPerPage: resultsPerPage <= 0 ? 5 : resultsPerPage,
+        resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
         price_min: price_min ? price_min : sliderRange[0],
         price_max: price_max ? price_max : sliderRange[1],
         location: country,
@@ -356,16 +359,38 @@ const Filter = () => {
     // dispatch(api.util.invalidateTags(["JobFilter"]));
   };
 
-  // useEffect(() => {
-  //   const params = new URLSearchParams(searchParams);
-  //   params.delete("jobType");
-  //   params.delete("price_min");
-  //   params.delete("price_max");
-  //   router.replace(`?${params.toString()}`);
-  // }, []);
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("filter__attr");
+    params.delete("price_min");
+    params.delete("price_max");
+    router.push(`?${params.toString()}`);
+  }, [country]);
+
+  const [reset, setReset] = useState(false);
+  const { refetch } = useGetAllJobsQuery(
+    {
+      page: page && page > 0 ? page : 1,
+      resultsPerPage: resultsPerPage && resultsPerPage > 0 ? resultsPerPage : 4,
+      location: country,
+    },
+    { skip: reset === false || isSearchTrigger },
+  );
+
+  const filterReset = () => {
+    setReset(true);
+    if (reset) {
+      refetch();
+    }
+    const params = new URLSearchParams(searchParams);
+    params.delete("filter__attr");
+    params.delete("price_min");
+    params.delete("price_max");
+    router.push(`?${params.toString()}`);
+  };
 
   return (
-    <div className="hidden md:block bg-white shadow-md rounded-lg pb-8 px-5 h-[84vh] overflow-scroll">
+    <div className="hidden md:block bg-white shadow-md rounded-lg pb-8 px-5 h-[84vh] overflow-scroll sticky top-0 left-0">
       <div
         className={classNames(
           classes.flexJustifyBetween,
@@ -373,7 +398,12 @@ const Filter = () => {
         )}
       >
         <h2 className="font-bold text-lg">Filters</h2>
-        <p className="text-sm text-blue-500 ">Reset All</p>
+        <Button
+          className="text-sm text-blue-500 !bg-transparent"
+          onClick={filterReset}
+        >
+          Reset All
+        </Button>
       </div>
       <div className={classNames(classes.border)}>
         <h2 className="font-bold pb-5">Sort By</h2>

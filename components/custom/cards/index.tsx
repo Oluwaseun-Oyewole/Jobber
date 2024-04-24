@@ -1,16 +1,24 @@
 import { useGetAllJobsQuery } from "@/app/store/query";
-import { getJobId, stopSearch } from "@/app/store/slice";
+import { getJobId, setNotification, stopSearch } from "@/app/store/slice";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { jobValidationSchema } from "@/lib/schema/jobs";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hook";
 import { IJob } from "@/services/jobs/types";
 import { getDateDifference, truncate } from "@/utils/helper";
+import { Toastify } from "@/utils/toasts";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Dollar from "../../../assets/dollar.svg";
 import Saved from "../../../assets/fav.svg";
+
+export interface SavedJobInterface {
+  id: string;
+  jobTitle: string;
+  companyName: string;
+  location: string;
+}
 
 const JobTypeResponse = (str: any) => {
   switch (str) {
@@ -35,19 +43,22 @@ const JobTypeResponse = (str: any) => {
 
 const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   const skeleton = new Array(2).fill("_");
-  const { country } = useAppSelector((state) => state.rootReducer.jobs);
+  const { country, isSearchTrigger } = useAppSelector(
+    (state) => state.rootReducer.jobs,
+  );
   const searchParams = useSearchParams();
   const page = +searchParams.get("page")!;
   const resultsPerPage = +searchParams.get("resultsPerPage")!;
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const { refetch } = useGetAllJobsQuery(
     {
       page: page && page > 0 ? page : 1,
-      resultsPerPage: resultsPerPage && resultsPerPage > 0 ? resultsPerPage : 5,
+      resultsPerPage: resultsPerPage && resultsPerPage > 0 ? resultsPerPage : 4,
       location: country,
     },
-    { skip: page <= 0 || resultsPerPage <= 0 || !country },
+    { skip: page <= 0 || resultsPerPage <= 0 || !country || isSearchTrigger },
   );
 
   const handleRefetch = () => {
@@ -91,7 +102,7 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
       </div>
     );
   }
-  const dispatch = useAppDispatch();
+
   const setJobId = (id: string) => {
     dispatch(getJobId(id));
   };
@@ -111,6 +122,34 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
       </div>
     );
   }
+
+  const checkIfJobInArray = (
+    object: SavedJobInterface,
+    array: SavedJobInterface[],
+  ): boolean => {
+    return array.some((item) => item.jobTitle === object.jobTitle);
+  };
+
+  const savedJobToLocalStorage = (object: SavedJobInterface) => {
+    let currentList: SavedJobInterface[] = [];
+    const storedList = localStorage.getItem("savedJobs");
+    if (storedList) {
+      currentList = JSON.parse(storedList);
+    }
+    const obj = checkIfJobInArray(object, currentList);
+    if (obj || object.jobTitle === "") {
+      Toastify.error("Job already saved");
+      return;
+    } else {
+      currentList.push(object);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("savedJobs", JSON.stringify(currentList));
+        localStorage.setItem("notification", String(true));
+      }
+      dispatch(setNotification());
+      Toastify.success("Job saved");
+    }
+  };
 
   return (
     <div className="grid grid-flow-row gap-4 pb-7">
@@ -211,7 +250,19 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                     </div>
                   </div>
 
-                  <Image src={Saved} alt="netflix" />
+                  <Button
+                    onClick={() =>
+                      savedJobToLocalStorage({
+                        id: job.id,
+                        jobTitle: job.jobTitle,
+                        companyName: job.companyName,
+                        location: job.location,
+                      })
+                    }
+                    className="!bg-transparent"
+                  >
+                    <Image src={Saved} alt="netflix" />
+                  </Button>
                 </div>
 
                 <div>

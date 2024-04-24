@@ -31,13 +31,14 @@ const JobTypeResponse = (str: any) => {
 };
 
 const Description = () => {
-  const { id, isDescLoader, isPaginate, country, isSearchTrigger } =
-    useAppSelector((state) => state.rootReducer.jobs);
+  const { id, isDescLoader, country, isSearchTrigger } = useAppSelector(
+    (state) => state.rootReducer.jobs,
+  );
   const jobData: any = useAppSelector((state) => state.rootReducer.jobs.data);
   const firstJobID = jobData?.jobs && jobData?.jobs[0]?.id;
   const [myState, setState] = useState({ id: "", location: country });
   const { data } = useGetJobDetailsQuery(myState, {
-    skip: !myState.id || isPaginate,
+    skip: !myState.id,
   });
 
   const getDetails = async () => {

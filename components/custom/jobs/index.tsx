@@ -67,7 +67,7 @@ const Jobs = () => {
 
   return (
     <>
-      <div className="mx-4 overflow-y-scroll flex flex-col gap-3">
+      <div className="mx-4 flex flex-col gap-3">
         <div className="bg-lightGray sticky top-0 bg-transparent left-0 z-10">
           <Search />
         </div>
@@ -161,7 +161,7 @@ const Jobs = () => {
             <div>
               <PaginationWrapper
                 total={data?.totalResults ?? 0}
-                resultsPerPage={data?.resultsPerPage ?? 4}
+                resultsPerPage={data?.resultsPerPage}
                 totalResults={data?.totalResults ?? 0}
                 page={data?.page ?? 1}
                 totalPages={data?.totalPages ?? 0}
@@ -172,7 +172,9 @@ const Jobs = () => {
             </p>
           </div>
 
-          <Cards data={data as JobResponseBody[]} isLoading={isLoading} />
+          <div className="h-[70vh] overflow-y-scroll">
+            <Cards data={data as JobResponseBody[]} isLoading={isLoading} />
+          </div>
         </div>
       </div>
     </>

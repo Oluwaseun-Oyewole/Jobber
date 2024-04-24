@@ -13,6 +13,7 @@ export const registerValidationSchema = z.object({
         ),
       "Must Contain 7 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
     ),
+  userType: z.union([z.literal("Employer"), z.literal("JobSeeker")]),
 });
 
 export type RegisterFormValues = z.infer<typeof registerValidationSchema>;

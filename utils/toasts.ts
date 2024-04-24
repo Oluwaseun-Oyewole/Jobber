@@ -7,6 +7,7 @@ export class Toastify {
       style: {
         background: "green",
         color: "white",
+        fontSize: "14px",
       },
       className: "toast",
     });
@@ -18,6 +19,7 @@ export class Toastify {
       style: {
         background: "red",
         color: "white",
+        fontSize: "14px",
       },
       className: "toast",
     });

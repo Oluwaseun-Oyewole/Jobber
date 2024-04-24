@@ -8,7 +8,7 @@ export const GET = async (req: NextRequest) => {
   const location = searchParams.get("location");
 
   if (!resultsPerPage || resultsPerPage === 0) {
-    resultsPerPage += 5;
+    resultsPerPage += 4;
   }
   if (page <= 0) {
     page += 1;
@@ -23,7 +23,7 @@ export const GET = async (req: NextRequest) => {
       take: resultsPerPage,
     });
 
-    const totalResults = jobs.length;
+    const totalResults = await prisma.job.count();
     const totalPages = Math.ceil(totalResults / resultsPerPage);
     const total = page > totalPages ? 0 : totalResults;
     return NextResponse.json(
@@ -41,7 +41,6 @@ export const GET = async (req: NextRequest) => {
       { status: 200 },
     );
   } catch (error) {
-    console.log("error from fetching all", error);
     return NextResponse.json(
       { message: "Oops something went wrong" },
       { status: 501 },

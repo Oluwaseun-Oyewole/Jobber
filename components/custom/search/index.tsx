@@ -1,5 +1,5 @@
 import { useGetJobSearchQuery } from "@/app/store/query";
-import { startSearch, stopSearch } from "@/app/store/slice";
+import { setNotification, startSearch, stopSearch } from "@/app/store/slice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -22,6 +22,9 @@ type IState = {
   status_code: string;
 };
 
+type ISearch = {
+  searchTerm: string;
+};
 type ISearchType = {
   resultsPerPage: number;
   page: number;
@@ -64,6 +67,28 @@ const Search = () => {
     },
     50,
   );
+  const checkIfJobInArray = (object: ISearch, array: ISearch[]): boolean => {
+    return array.some((item) => item === object);
+  };
+
+  const saveSearches = (object: ISearch) => {
+    let currentList: ISearch[] = [];
+    const storedList = localStorage.getItem("savedJobs");
+    if (storedList) {
+      currentList = JSON.parse(storedList);
+    }
+    const obj = checkIfJobInArray(object, currentList);
+    if (obj) {
+      return;
+    } else {
+      currentList.push(object);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("searches", JSON.stringify(currentList));
+        localStorage.setItem("notification", String(true));
+      }
+      dispatch(setNotification());
+    }
+  };
 
   const [myState, setState] = useState<ISearchType>({
     resultsPerPage: 0,
@@ -84,40 +109,36 @@ const Search = () => {
     setSearchController(true);
     if (values.location && values.search === "") {
       setState({
-        page: 1,
-        resultsPerPage: 5,
+        page: page > 0 ? page : 1,
+        resultsPerPage: resultsPerPage > 0 ? resultsPerPage : 4,
         location: country,
         searchLocation: values.location,
       });
     } else if (values.search && values.location === "") {
       setState({
-        page: 1,
-        resultsPerPage: 5,
+        page: page > 0 ? page : 1,
+        resultsPerPage: resultsPerPage > 0 ? resultsPerPage : 4,
         location: country,
         searchQuery: values.search,
       });
     } else {
       setState({
-        page: 1,
-        resultsPerPage: 5,
+        page: page > 0 ? page : 1,
+        resultsPerPage: resultsPerPage > 0 ? resultsPerPage : 4,
         location: country,
         searchQuery: values.search,
         searchLocation: values.location,
       });
     }
-
     updateURLFromSearchQuery({
       search: values?.search ?? "",
       searchLocation: values.location,
       page: page <= 0 ? 1 : page,
-      resultsPerPage: resultsPerPage <= 0 ? 5 : resultsPerPage,
+      resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
     });
+    dispatch(setNotification());
+    saveSearches(values.search || values.location);
     resetForm({});
-    // dispatch(api.util.invalidateTags(["JobSearch"]));
-    // if (searchController) {
-    //   dispatch(api.util.invalidateTags(["JobDetails"]));
-    //   dispatch(removeJobId());
-    // }
   };
 
   useEffect(() => {
@@ -126,6 +147,8 @@ const Search = () => {
     params.delete("location");
     router.push(`?${params.toString()}`);
   }, []);
+
+  console.log("controller", searchController);
 
   useEffect(() => {
     if (!searchController) {

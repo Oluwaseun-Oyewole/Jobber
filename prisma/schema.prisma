@@ -17,6 +17,12 @@ enum JobType {
  contract
 }
 
+enum UserType {
+ Employer
+ JobSeeker
+}
+
+
 enum Experience {
   Fresh
   Beginner
@@ -51,16 +57,28 @@ model Account {
 
   @@unique([provider, providerAccountId])
   }
+model Otp{
+    id          String  @default(cuid()) @id
+    userId      String  @map("user_id")  
+    otp         String  
+    createdAt   DateTime   @map(name: "created_at")
+    expiresAt   DateTime  @map(name: "expires_at")
+    
+    @@map(name:"otp")
+    user User @relation(fields:[userId], references:[id], onDelete: Cascade)
+}
 
 model User{
     id          String      @default(cuid()) @id
     name        String?
     password    String?
     email       String? @unique
+    userType    UserType @default(JobSeeker) @map("user_type")
     createdAt   DateTime  @default(now()) @map(name: "created_at")
     updatedAt   DateTime @default(now())  @map(name: "updated_at")
     emailVerified  DateTime? @map(name:"email_verified")
     accounts        Account[]
+    otp             Otp[]
     @@map(name:"users")
 }
 
