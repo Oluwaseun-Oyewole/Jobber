@@ -13,7 +13,9 @@ const FormContent = () => {
       return <VerifyOTP />;
     } else return;
   };
-  return <div>{renderForm()} </div>;
+  return (
+    <div className="flex justify-center items-center">{renderForm()} </div>
+  );
 };
 
 export default FormContent;

@@ -12,7 +12,10 @@ export const sendOTPVerification = async ({
 }) => {
   const userExist = await getUserByEmail(email);
   if (!userExist) {
-    return NextResponse.json({ message: "Invalid Email!" }, { status: 404 });
+    return NextResponse.json(
+      { message: "Invalid email address!" },
+      { status: 404 },
+    );
   }
   function generateOTP(): string {
     return Math.floor(10000 + Math.random() * 900000).toString();

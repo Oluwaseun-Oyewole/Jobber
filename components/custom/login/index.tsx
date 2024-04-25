@@ -70,7 +70,7 @@ const LoginComponent = () => {
   };
 
   return (
-    <div className="bg-white w-[400px] md:w-[470px] min-h-[500px] shadow-lg rounded-xl my-10 md:my-0">
+    <div className="bg-white w-full overflow-x-hidden md:w-[480px] min-h-[500px] shadow-lg rounded-xl my-5 lg:my-0">
       <div className="flex flex-col items-center justify-around p-5 md:p-10">
         <h1 className="font-medium text-xl md:text-2xl">Login</h1>
         <OAuth />

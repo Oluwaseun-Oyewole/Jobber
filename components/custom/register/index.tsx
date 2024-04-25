@@ -60,7 +60,7 @@ const RegisterComponent = () => {
   };
 
   return (
-    <div className="bg-white w-[400px] md:w-[470px] min-h-[500px] shadow-lg rounded-xl my-10 md:my-0">
+    <div className="bg-white w-full overflow-x-hidden md:w-[480px] shadow-lg rounded-xl my-5 xl:my-0">
       <div className="flex flex-col items-center justify-around h-full p-5 md:p-10">
         <h1 className="font-medium text-xl md:text-2xl">Registration</h1>
         <OAuth />

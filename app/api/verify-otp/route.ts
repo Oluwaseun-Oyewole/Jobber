@@ -17,7 +17,10 @@ export const POST = async (req: NextRequest) => {
   try {
     const user = await getUserByEmail(email);
     if (!user) {
-      return NextResponse.json({ message: "Invalid email." }, { status: 404 });
+      return NextResponse.json(
+        { message: "Invalid email address." },
+        { status: 404 },
+      );
     }
     const getOTPCode = await prisma.otp.findFirst({
       where: { userId: user.id, otp },

@@ -21,7 +21,10 @@ export const POST = async (req: NextRequest) => {
   try {
     const user = await getUserByEmail(email);
     if (!user) {
-      return NextResponse.json({ message: "Invalid Email." }, { status: 404 });
+      return NextResponse.json(
+        { message: "Invalid email address." },
+        { status: 404 },
+      );
     } else {
       await sendOTPVerification({ email, username: user.name! });
       return NextResponse.json(
