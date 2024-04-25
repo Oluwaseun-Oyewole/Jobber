@@ -1,4 +1,5 @@
 "use client";
+import { allSavedJobs } from "@/app/store/slice";
 import {
   Table,
   TableBody,
@@ -7,9 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useAppDispatch } from "@/lib/store/hook";
 import { DeleteIcon } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type IJob = {
   id: string;
@@ -18,24 +20,35 @@ type IJob = {
   location: string;
 };
 
-const SavedJobs = (jobs: any) => {
-  const [items, setItems] = useState(jobs);
+const SavedJobs = () => {
+  const [items, setItems] = useState([]);
+  const dispatch = useAppDispatch();
 
   const removeJobs = (id: string) => {
-    const updatedItems = items.jobs.filter((job: IJob) => job.id !== id);
+    const updatedItems = items.filter((job: IJob) => job.id !== id);
     setItems(updatedItems);
     localStorage.setItem("savedJobs", JSON.stringify(updatedItems));
+    dispatch(allSavedJobs(updatedItems));
   };
 
-  if (items?.jobs?.length <= 0) {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storage = localStorage.getItem("savedJobs");
+      setItems(JSON.parse(storage!));
+      dispatch(allSavedJobs(JSON.parse(storage!)));
+    }
+  }, [dispatch]);
+
+  if (items?.length <= 0) {
     return (
       <div className="h-[40vh] flex justify-center items-center">
         <p className="font-medium text-deepBlue">No saved job(s)</p>
       </div>
     );
   }
+
   return (
-    <div className="h-[40vh] flex justify-center items-center">
+    <div className="min-h-[40vh] flex justify-center items-center">
       <Table>
         <TableHeader>
           <TableRow>
@@ -45,7 +58,7 @@ const SavedJobs = (jobs: any) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items?.jobs?.map((job: IJob, index: number) => (
+          {items?.map((job: IJob, index: number) => (
             <TableRow>
               <TableCell className="font-medium" key={index}>
                 <Link

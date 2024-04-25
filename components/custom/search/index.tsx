@@ -73,7 +73,7 @@ const Search = () => {
 
   const saveSearches = (object: ISearch) => {
     let currentList: ISearch[] = [];
-    const storedList = localStorage.getItem("savedJobs");
+    const storedList = localStorage.getItem("searches");
     if (storedList) {
       currentList = JSON.parse(storedList);
     }
@@ -147,8 +147,6 @@ const Search = () => {
     params.delete("location");
     router.push(`?${params.toString()}`);
   }, []);
-
-  console.log("controller", searchController);
 
   useEffect(() => {
     if (!searchController) {
@@ -226,7 +224,7 @@ const Search = () => {
                 type="submit"
                 children="Search"
                 disabled={!formik.values.location && !formik.values.search}
-                className="bg-lightBlue h-[52px] lg:ml-5 hover:bg-lightBlue rounded-lg"
+                className="bg-deepBlue h-[50px] lg:ml-5 hover:bg-lightBlue rounded-lg"
               />
             </Form>
           );

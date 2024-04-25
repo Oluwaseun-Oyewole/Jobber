@@ -14,6 +14,8 @@ const initialState = {
   states: [],
   isSearchTrigger: false,
   notification: false,
+  savedJobs: [],
+  savedSearch: [],
 };
 
 const jobSlice = createSlice({
@@ -49,6 +51,12 @@ const jobSlice = createSlice({
     },
     removeJobId(state) {
       state.id = "";
+    },
+    allSavedJobs(state, { payload }) {
+      state.savedJobs = payload;
+    },
+    allSavedSearches(state, { payload }) {
+      state.savedSearch = payload;
     },
   },
   extraReducers: (builder) => {
@@ -138,6 +146,8 @@ export const {
   removeJobId,
   setNotification,
   removeNotification,
+  allSavedJobs,
+  allSavedSearches,
 } = jobSlice.actions;
 
 export default jobSlice.reducer;

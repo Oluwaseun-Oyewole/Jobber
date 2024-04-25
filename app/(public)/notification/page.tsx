@@ -1,33 +1,41 @@
 "use client";
+import { allSavedJobs, allSavedSearches } from "@/app/store/slice";
 import RecentSearches from "@/components/custom/recent-searches";
 import SavedJobs from "@/components/custom/saved-jobs";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hook";
 import { Bell } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Notification = () => {
-  const [jobs, setJobs] = useState([]);
-  const [searchArray, setSearchArray] = useState([]);
+  const dispatch = useAppDispatch();
+
+  const { savedJobs, savedSearch } = useAppSelector(
+    (state) => state.rootReducer.jobs,
+  );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const jobs = localStorage.getItem("savedJobs")!;
       const search = localStorage.getItem("searches")!;
-      setJobs(JSON.parse(jobs));
-      setSearchArray(JSON.parse(search));
+      const storage = localStorage.getItem("savedJobs");
+      dispatch(allSavedJobs(JSON.parse(storage!)));
+      dispatch(allSavedSearches(search!));
     }
-  }, []);
+  }, [dispatch]);
 
-  if ((jobs && jobs.length > 0) || (searchArray && searchArray.length > 0)) {
+  if (
+    (savedJobs && savedJobs?.length > 0) ||
+    (savedSearch && savedSearch.length > 0)
+  ) {
     return (
       <div className="">
         <Tabs
           defaultValue="saved-jobs"
           className="flex justify-between items-center flex-col"
         >
-          <TabsList className="flex w-[20%] justify-between !bg-gray-200 !text-deepBlue !font-light mt-20 !py-7 !px-3">
+          <TabsList className="flex w-[70%] md:w-[50%] lg:w-[30%] justify-between !bg-gray-200 !text-deepBlue !font-light mt-20 !py-7 !px-3">
             <TabsTrigger value="saved-jobs" className="!font-light">
               Saved Jobs
             </TabsTrigger>
@@ -36,10 +44,10 @@ const Notification = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="saved-jobs">
-            <SavedJobs jobs={jobs} />
+            <SavedJobs />
           </TabsContent>
           <TabsContent value="recent-searches">
-            <RecentSearches searchArray={searchArray} />
+            <RecentSearches />
           </TabsContent>
         </Tabs>
       </div>

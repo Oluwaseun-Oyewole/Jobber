@@ -1,4 +1,5 @@
 "use client";
+import { allSavedSearches } from "@/app/store/slice";
 import {
   Table,
   TableBody,
@@ -7,21 +8,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useAppDispatch } from "@/lib/store/hook";
 import { DeleteIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const RecentSearches = (searchArray: any) => {
-  const [items, setItems] = useState(searchArray);
+const RecentSearches = () => {
+  const [items, setItems] = useState([]);
+  const dispatch = useAppDispatch();
 
   const removeJobs = (searchTerm: string) => {
-    const updatedItems = items.searchArray.filter(
+    const updatedItems = items?.filter(
       (search: string) => search !== searchTerm,
     );
     setItems(updatedItems);
     localStorage.setItem("searches", JSON.stringify(updatedItems));
+    dispatch(allSavedSearches(updatedItems));
   };
 
-  if (items?.searchArray?.length <= 0) {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storage = localStorage.getItem("searches");
+      setItems(JSON.parse(storage!));
+      dispatch(allSavedSearches(JSON.parse(storage!)));
+    }
+  }, []);
+
+  if (items?.length <= 0) {
     return (
       <div className="h-[40vh] flex justify-center items-center">
         <p className="font-medium text-deepBlue">No recent search</p>
@@ -29,17 +41,15 @@ const RecentSearches = (searchArray: any) => {
     );
   }
   return (
-    <div className="h-[40vh] flex justify-center items-center">
+    <div className="min-h-[40vh] flex justify-center items-center">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[150px] text-deepBlue">
-              SearchTerm
-            </TableHead>
+            <TableHead className="w-[150px] text-deepBlue">Searches</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items?.searchArray?.map((searchTerm: string, index: number) => (
+          {items?.map((searchTerm: string, index: number) => (
             <TableRow>
               <TableCell className="font-medium text-deepBlue" key={index}>
                 {searchTerm}
