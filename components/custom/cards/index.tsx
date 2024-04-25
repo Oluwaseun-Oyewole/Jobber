@@ -165,12 +165,18 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
           return (
             <div key={job?.id}>
               <Link href={`/job-description/${job?.id}`} className="xl:hidden">
-                <div className="min-h-[260px] bg-white rounded-lg shadow-md hover:shadow-lg cursor-pointer flex flex-col justify-between px-5 py-6">
+                <div
+                  className="mb-5 min-h-[250px] bg-white rounded-lg shadow-md hover:shadow-lg cursor-pointer xl:flex flex-col justify-between px-5 py-5"
+                  onClick={() => {
+                    dispatch(stopSearch());
+                    setJobId(job?.id);
+                  }}
+                >
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-4">
                       <Image
                         src={job?.imageSrc}
-                        alt="netflix"
+                        alt="job image"
                         width={50}
                         height={50}
                       />
@@ -190,30 +196,61 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                         </div>
                       </div>
                     </div>
-                    <Image src={Saved} alt="netflix" />
+
+                    <Button
+                      onClick={() =>
+                        savedJobToLocalStorage({
+                          id: job.id,
+                          jobTitle: job.jobTitle,
+                          companyName: job.companyName,
+                          location: job.location,
+                        })
+                      }
+                      className="!bg-transparent"
+                    >
+                      <Image src={Saved} alt="netflix" />
+                    </Button>
                   </div>
 
-                  <p className="font-[300] text-sm">{job?.location}</p>
+                  <div>
+                    <p className="font-[400] text-xs">{job?.location}</p>
+                  </div>
 
-                  <div className="flex justify-between items-center w-[90%] font-[400] text-sm">
-                    <h3 className=" bg-lightGray rounded-sm py-2 px-2 text-xs xl:text-base">
+                  <div className="flex justify-between items-center w-[90%] font-[400] text-xs mt-2">
+                    <h3 className=" bg-lightGray rounded-sm py-2 px-4">
                       {JobTypeResponse(job?.jobType)}
                     </h3>
                   </div>
 
-                  <div>
+                  <div className="py-2">
                     <p className="text-sm font-[300]">
-                      {truncate(job?.jobInfo, 100)}
+                      {truncate(job?.jobInfo, 70)}
                     </p>
                   </div>
 
                   <div className="flex justify-between items-center font-[400] text-sm">
                     <div className="flex gap-2 items-center">
                       <Image src={Dollar} alt="netflix" />
-                      <p className="font-[300]">${job?.salary}/month</p>
+                      <p className="text-[13px] font-[300]">
+                        &#36;{job?.salary}K/month
+                      </p>
                     </div>
                     <div>
-                      <p className="text-sm font-[300]">2 mins ago</p>
+                      <p className="text-sm font-[300]">
+                        {days > 0 ? (
+                          <div>
+                            {days} {days > 1 ? "days" : "day"} ago
+                          </div>
+                        ) : hours > 0 ? (
+                          <div>
+                            {hours} {hours > 1 ? "hrs" : "hr"} ago
+                          </div>
+                        ) : (
+                          <div>
+                            {minutes} {minutes > 1 ? "mins" : "mins"} ago
+                          </div>
+                        )}
+                      </p>
                     </div>
                   </div>
                 </div>

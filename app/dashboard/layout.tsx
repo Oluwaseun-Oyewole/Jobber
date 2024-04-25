@@ -1,6 +1,16 @@
 "use client";
+import DashboardNavigation from "@/components/custom/dashboardNav";
+import { Sidebar } from "@/components/custom/sidebar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { outfit } from "../fonts";
 
 // export const metadata: Metadata = {
@@ -16,15 +26,47 @@ export default function RootLayout({
 }>) {
   const session = useSession();
   const router = useRouter();
+  const pathname = usePathname();
+  const getTitle = pathname.split("/");
+
   if (session.status === "unauthenticated") {
     router.push("/auth/login");
   }
   return (
     <>
       <main
-        className={`w-full flex items-center justify-center ${outfit.className}`}
+        className={`w-full grid grid-flow-col grid-cols-[100%] lg:grid-cols-[25%_75%] xl:grid-cols-[18%_82%] ${outfit.className}`}
       >
-        {children}
+        <div className="hidden lg:block bg-white h-screen overflow-y-scroll">
+          <Sidebar />
+        </div>
+        <div className="w-[92%] mx-auto">
+          <div className="">
+            <DashboardNavigation />
+          </div>
+          <div>
+            <Breadcrumb className="pb-4">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>
+                    <p className="text-primary-100">
+                      {pathname
+                        .split("/")
+                        [getTitle.length - 1].substring(0, 1)
+                        .toUpperCase() +
+                        pathname.split("/")[getTitle.length - 1].substring(1)}
+                    </p>
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+          {children}
+        </div>
       </main>
     </>
   );
