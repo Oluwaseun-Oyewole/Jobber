@@ -22,8 +22,8 @@ const FormLayout = () => {
 
   return (
     <>
-      <div className="w-full">
-        <div className="flex items-center justify-center">
+      <div className="w-full pt-5">
+        <div className="flex items-center justify-center w-[90%] mx-auto">
           <div className="w-full flex justify-between">
             {stepNumber === 2 && (
               <p
@@ -51,7 +51,7 @@ const FormLayout = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center pt-8 pb-5"></div>
+        <div className="flex flex-col items-center justify-center md:pt-10 pb-5"></div>
         <FormContent />
       </div>
     </>

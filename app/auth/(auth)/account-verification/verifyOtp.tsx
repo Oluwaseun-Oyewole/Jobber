@@ -68,7 +68,7 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div className="bg-white w-full overflow-x-hidden md:w-[480px] shadow-lg rounded-xl my-5 xl:my-0">
+    <div className="bg-white w-full overflow-x-hidden md:w-[480px] shadow-lg rounded-xl mb-5 xl:my-0">
       <div className="flex flex-col items-center justify-around p-5 md:p-10">
         <h1 className="font-medium text-xl md:text-xl">OTP Verification</h1>
         <p className="text-sm font-light text-deepBlue mt-3">

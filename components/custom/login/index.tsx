@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { LoginFormValues, loginValidationSchema } from "@/lib/schema/login";
 import { login } from "@/services/auth";
 import { Form, Formik } from "formik";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,8 +16,6 @@ import Loader from "../loader";
 import OAuth from "../oauth";
 
 const LoginComponent = () => {
-  const session = useSession();
-  console.log("session status -- ", session.status);
   const router = useRouter();
   const validateForm = (values: LoginFormValues) => {
     try {

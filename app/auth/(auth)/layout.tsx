@@ -15,6 +15,7 @@ export default function AuthLayout({
   if (session.status === "authenticated") {
     router.push("/dashboard");
   }
+
   return (
     <main
       className={`${outfit.className} flex flex-col items-center justify-center min-h-screen w-full`}
