@@ -1,21 +1,22 @@
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password";
+import { Textarea } from "@/components/ui/textarea";
 import { ErrorMessage } from "formik";
 import { FC } from "react";
 import FormError from "../formError";
 
 interface IFormikControlProps {
-  control: "input" | "select" | "area" | "password";
+  control: "input" | "select" | "area" | "password" | "textarea";
   [key: string]: any;
 }
 
 const FormikController: FC<IFormikControlProps> = (props) => {
-  const { control, name, ...rest } = props;
+  const { control, name, type, ...rest } = props;
   switch (control) {
     case "input":
       return (
         <>
-          <Input {...rest} name={name} />
+          <Input {...rest} name={name} type={type ? type : "text"} />
           <ErrorMessage name={name}>
             {(msg) => <div>{<FormError error={msg} />}</div>}
           </ErrorMessage>
@@ -32,6 +33,15 @@ const FormikController: FC<IFormikControlProps> = (props) => {
         </>
       );
 
+    case "textarea":
+      return (
+        <>
+          <Textarea {...rest} name={name} />
+          <ErrorMessage name={name}>
+            {(msg) => <div>{<FormError error={msg} />}</div>}
+          </ErrorMessage>
+        </>
+      );
     default:
       return null;
   }

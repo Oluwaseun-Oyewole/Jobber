@@ -78,6 +78,57 @@ const Jobs = () => {
       isSearchTrigger,
   });
 
+  type CheckboxStateType = {
+    resultsPerPage: number;
+    page: number;
+    filter__attr: string;
+    location: string;
+    price_min?: number;
+    price_max?: number;
+  };
+
+  const [checkboxState, setCheckboxState] = useState<CheckboxStateType>({
+    resultsPerPage: 0,
+    page: 0,
+    filter__attr: filter__attr ? filter__attr : "",
+    location: "",
+    price_min: price_min,
+    price_max: price_max,
+  });
+  useGetJobsFilterQuery(checkboxState, {
+    skip:
+      !checkboxState.page ||
+      !checkboxState.resultsPerPage ||
+      !checkboxState.filter__attr ||
+      !checkboxState.location,
+  });
+
+  const handleRadioChange = (e: string) => {
+    // dispatch(api.util.invalidateTags(["JobFilter"]));
+    updateURLFromSearchQuery({
+      checkBox: e ? e : filter__attr,
+      page: page <= 0 ? 1 : page,
+      resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
+    });
+    if (price_min! <= 0) {
+      setCheckboxState({
+        page: page <= 0 ? 1 : page,
+        resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
+        filter__attr: e ? e : filter__attr,
+        location: country,
+      });
+    } else {
+      setCheckboxState({
+        page: page <= 0 ? 1 : page,
+        resultsPerPage: resultsPerPage <= 0 ? 4 : resultsPerPage,
+        filter__attr: e ? e : filter__attr,
+        location: country,
+        price_min: price_min ? price_min : sliderRange[0],
+        price_max: price_max ? price_max : sliderRange[1],
+      });
+    }
+  };
+
   const fetchJobs = async () => {
     if (isSearchTrigger) return;
     else {
@@ -169,7 +220,7 @@ const Jobs = () => {
         </div>
 
         <div className="grid grid-cols-2 items-center gap-3 mt-5 md:hidden">
-          <Select>
+          <Select onValueChange={(e) => handleRadioChange(e)}>
             <SelectTrigger className="w-full py-7 pl-9">
               <SelectValue placeholder="Date Posted" />
             </SelectTrigger>
@@ -244,18 +295,22 @@ const Jobs = () => {
         </div>
 
         <div className="md:hidden">
-          <div className="w-full">
-            <h2 className="font-[300] py-2 text-sm">Salary Range</h2>
-            <Button
-              className="bg-transparent hover:bg-transparent text-deepBlue text-sm !m-0 !p-0"
-              onClick={filterByPriceRange}
-            >
-              Apply
-            </Button>
-            <SliderComponent
-              sliderRange={sliderRange}
-              setSliderRange={setSliderRange}
-            />
+          <div className="">
+            <div className="flex items-center justify-between pb-5">
+              <h2 className="font-bold">Salary Range</h2>
+              <Button
+                className="bg-transparent hover:bg-transparent text-deepBlue text-sm !m-0 !p-0"
+                onClick={filterByPriceRange}
+              >
+                Apply
+              </Button>
+            </div>
+            <div className="w-[90%] mx-auto">
+              <SliderComponent
+                sliderRange={sliderRange}
+                setSliderRange={setSliderRange}
+              />
+            </div>
           </div>
         </div>
         <div className="pt-6">

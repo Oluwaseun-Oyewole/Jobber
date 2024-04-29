@@ -28,6 +28,23 @@ export const {
       });
     },
   },
+  callbacks: {
+    async session({ session, token }) {
+      const userJobs = await prisma.user.findFirst({
+        where: {
+          email: token?.email,
+        },
+        include: {
+          jobs: true,
+        },
+      });
+      if (session?.user) {
+        session.user.role = userJobs?.userType;
+        session.user.jobs = userJobs?.jobs;
+      }
+      return session;
+    },
+  },
 
   // callbacks: {
   //   async signIn({ user }) {

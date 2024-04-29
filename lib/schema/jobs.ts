@@ -26,3 +26,5 @@ export const jobValidationSchema = z.object({
   experience: z.enum(["Fresh", "Beginner", "Intermediate", "Expert", "Guru"]),
   position: z.enum(["Onsite", "Hybrid", "Remote"]),
 });
+
+export type JobFormValues = z.infer<typeof jobValidationSchema>;

@@ -79,6 +79,7 @@ model User{
     emailVerified  DateTime? @map(name:"email_verified")
     accounts        Account[]
     otp             Otp[]
+    jobs            Job[]
     @@map(name:"users")
 }
 
@@ -103,6 +104,9 @@ model Job{
   aboutCompany  String?
   country     String?
   applicationLink String?
+  jobId      String  @map("post_id")  
+  
+  user User @relation(fields:[jobId], references:[id], onDelete: Cascade)
   
   @@map(name:"jobs")
 }

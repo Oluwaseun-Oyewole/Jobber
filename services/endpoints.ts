@@ -8,6 +8,7 @@ export class Endpoints {
   static resendOTP = BASE_URL + "resend-otp";
   static forgotPassword = BASE_URL + "forgot-password";
   static resetPassword = BASE_URL + "reset-password";
+  static createJob = BASE_URL + "create-job";
   static getCountryState = process.env.NEXT_PUBLIC_COUNTRY_NAME;
   static getCountryNameByGeoCode =
     process.env.NEXT_PUBLIC_GET_COUNTRY_BY_GEO_CODE + "json";

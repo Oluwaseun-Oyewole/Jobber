@@ -1,25 +1,15 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { signOut, useSession } from "next-auth/react";
+import Dashboard from "@/components/custom/dashboard";
+import Loader from "@/components/custom/loader";
+import { Suspense } from "react";
 
-export default function Home() {
-  const session = useSession();
+const Home = () => {
   return (
-    <div className="py-6">
-      <div>
-        Hi <span className="text-deepBlue">{session?.data?.user?.name}</span>
-      </div>
-
-      <p>Welcome to JobPort</p>
-      <p>Dashboard still under construction</p>
-      <div className="py-5">
-        <Button
-          onClick={() => signOut({ callbackUrl: "/auth/login" })}
-          className="!bg-deepBlue !text-xs"
-        >
-          Sign Out
-        </Button>
-      </div>
-    </div>
+    <>
+      <Suspense fallback={<Loader />}>
+        <Dashboard />
+      </Suspense>
+    </>
   );
-}
+};
+
+export default Home;

@@ -1,21 +1,22 @@
 "use client";
 import ProfileImage from "@/assets/Avatar.svg";
 import JobPortLogo from "@/assets/logo-f.svg";
+import { Button } from "@/components/ui/button";
 import { truncate } from "@/utils/helper";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import NavMenuItems from "../navlinks";
 import { routes } from "./links";
 
 export const Sidebar = () => {
   const session = useSession();
-  const username = session?.data?.user?.name;
+  const username = session?.data?.user?.name ?? "";
 
   return (
     <nav className="font-[300] lg:flex items-center flex-col lg:justify-center">
       <div className="w-[87%]">
         <div className="lg:flex flex-col items-center justify-center">
-          <div className="pt-4 pb-2 hidden lg:block">
+          <div className="pt-6 pb-2 hidden lg:block">
             <Image
               src={JobPortLogo}
               alt="jop port logo"
@@ -39,6 +40,15 @@ export const Sidebar = () => {
             return <NavMenuItems key={index} route={route} />;
           })}
         </ul>
+
+        <div className="py-5 w-[80%] mx-auto flex justify-start items-end h-[30vh] ">
+          <Button
+            onClick={() => signOut({ callbackUrl: "/auth/login" })}
+            className="!bg-deepBlue !text-xs"
+          >
+            Sign Out
+          </Button>
+        </div>
       </div>
     </nav>
   );

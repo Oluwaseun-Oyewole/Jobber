@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/sheet";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
@@ -43,14 +44,14 @@ const DashboardNavigation = () => {
     }
   };
   return (
-    <div>
-      <div className="hidden my-6 lg:flex justify-between items-center">
+    <div className="py-5">
+      <div className="hidden  lg:flex justify-between items-center">
         <div className="w-full">
           <Input
             name="search"
             type="search"
             // value=""
-            className="autocomplete-input h-[52px] w-[80%] px-10 rounded-lg border-none font-[500] placeholder:!text-sm placeholder:!text-gray-500"
+            className="autocomplete-input h-[48px] w-[75%] px-10 rounded-lg !border-[1.5px] !border-blue-300 font-[500] placeholder:!text-sm placeholder:!text-gray-500"
             onChange={() => {}}
             autoComplete="off"
             placeholder="search job title or skills"
@@ -58,13 +59,15 @@ const DashboardNavigation = () => {
         </div>
         <div className="flex gap-2 justify-end items-center w-full">
           {session?.data?.user?.name && (
-            <Button className="!bg-deepBlue !text-xs">Post a Job</Button>
+            <Button className="!bg-deepBlue !text-xs">
+              <Link href="/dashboard/post-job">Post a Job</Link>
+            </Button>
           )}
           <Image src={NotificationIcon} alt="notification icon" />
           <Image src={MessagingIcon} alt="message icon" />
         </div>
       </div>
-      <div className="lg:hidden flex justify-between items-center my-7 w-full">
+      <div className="lg:hidden flex justify-between items-center w-full">
         <Image src={JobPortLogo} alt="logo" className="w-[100px]" />
 
         <Sheet onOpenChange={closeClick}>
@@ -129,7 +132,7 @@ const DashboardNavigation = () => {
                   <div className="flex gap-2 items-center w-full">
                     {session?.data?.user?.name && (
                       <Button className="!bg-deepBlue !text-xs">
-                        Post a Job
+                        <Link href="/dashboard/post-job">Post a Job</Link>
                       </Button>
                     )}
                     <Image src={NotificationIcon} alt="notification icon" />
