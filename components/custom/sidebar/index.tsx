@@ -41,7 +41,7 @@ export const Sidebar = () => {
           })}
         </ul>
 
-        <div className="py-5 w-[80%] mx-auto flex justify-start items-end h-[30vh] ">
+        <div className="py-5 w-[80%] mx-auto flex justify-start items-end h-[20vh] ">
           <Button
             onClick={() => signOut({ callbackUrl: "/auth/login" })}
             className="!bg-deepBlue !text-xs"

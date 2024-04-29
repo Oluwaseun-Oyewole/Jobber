@@ -16,7 +16,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Dashboard() {
+export default function Home() {
   const session = useSession();
   const [jobs, setJobs] = useState<JobFormValues[]>([]);
   const { country } = useAppSelector((state) => state.rootReducer.jobs);
@@ -73,7 +73,7 @@ export default function Dashboard() {
   return (
     <>
       <div className="block lg:grid grid-flow-col lg:grid-cols-[69%_29%] justify-between h-screen overflow-y-scroll">
-        <div className="lg:pb-20">
+        <div>
           <div className="bg-white h-[50vh] rounded-lg">
             <div className="w-[97%] py-6 mx-auto">
               <div className="flex justify-between items-center">
@@ -100,7 +100,7 @@ export default function Dashboard() {
           <Cards cardArray={ProfileCard} />
           <ProfileViewers />
         </div>
-        <div className="flex flex-col gap-5 pb-20">
+        <div className="mt-10 md:mt-0 flex flex-col gap-5 pb-20">
           <div className="bg-white shadow-lg font-[300] w-full rounded-md h-[55vh]">
             <div className="w-[85%] mx-auto">
               <div className="py-6 flex items-center justify-between sticky top-0 left-0 bg-white">

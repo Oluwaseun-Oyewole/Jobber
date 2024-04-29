@@ -25,7 +25,7 @@ enum Position {
 
 export const GET = async (req: NextRequest) => {
   const { searchParams } = await new URL(req.url);
-  const job_type = searchParams.get("jobType")! ?? "FullTime";
+  const job_type = searchParams.get("jobType")! ?? "fulltime";
   const experience = searchParams.get("experience")! ?? "Expert";
   const position = searchParams.get("position")! ?? "Onsite";
   const location = searchParams.get("location");
@@ -155,7 +155,7 @@ export const GET = async (req: NextRequest) => {
         skip: (page - 1) * resultsPerPage,
         take: resultsPerPage,
       });
-    } else if (jobType) {
+    } else if (jobType && !position) {
       console.log("running from here else job type ");
       jobs = await prisma.job.findMany({
         where: {
@@ -163,6 +163,18 @@ export const GET = async (req: NextRequest) => {
             { OR: [{ country: location?.trim() }, { location: "Remote" }] },
           ],
           jobType: job_type as JobType,
+        },
+        skip: (page - 1) * resultsPerPage,
+        take: resultsPerPage,
+      });
+    } else if (position) {
+      console.log("running from here else job position ");
+      jobs = await prisma.job.findMany({
+        where: {
+          AND: [
+            { OR: [{ country: location?.trim() }, { location: "Remote" }] },
+            { AND: [{ position: position as Position }] },
+          ],
         },
         skip: (page - 1) * resultsPerPage,
         take: resultsPerPage,

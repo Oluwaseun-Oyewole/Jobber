@@ -18,6 +18,7 @@ export const experience = [
   { id: 2, label: "Beginner", value: "Beginner", checked: false },
   { id: 3, label: "Intermediate", value: "Intermediate", checked: false },
   { id: 4, label: "Expert", value: "Expert", checked: false },
+  { id: 5, label: "Guru", value: "Guru", checked: false },
 ];
 
 export const position = [

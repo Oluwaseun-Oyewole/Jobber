@@ -49,6 +49,7 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   const searchParams = useSearchParams();
   const page = +searchParams.get("page")!;
   const resultsPerPage = +searchParams.get("resultsPerPage")!;
+  const searchQuery = searchParams.get("query")!;
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -72,12 +73,14 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
         <div className="h-[60vh] flex flex-col items-center justify-center">
           <div className="h-[250px] w-full bg-white rounded-lg shadow-md hover:shadow-lg cursor-pointer flex flex-col gap-2 justify-center items-center">
             <h1 className="text-lg ">No jobs available</h1>
-            <Button
-              className="!bg-lightBlue text-xs hover:!bg-deepBlue"
-              onClick={handleRefetch}
-            >
-              Fetch jobs
-            </Button>
+            {!searchQuery && (
+              <Button
+                className="!bg-lightBlue text-xs hover:!bg-deepBlue"
+                onClick={handleRefetch}
+              >
+                Fetch jobs
+              </Button>
+            )}
           </div>
         </div>
       </div>
