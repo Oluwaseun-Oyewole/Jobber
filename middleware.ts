@@ -15,7 +15,7 @@
 
 // /***
 //  * This code  authenticate users based on auth status
-//  * this code was commented off because of the vercel edge  function update
+//  * this code was commented off because of the vercel edge function update
 //  *
 //  * */
 

@@ -1,5 +1,8 @@
-export const maxDuration = 10;
-export const dynamic = "force-dynamic";
+// export const maxDuration = 10;
+
+export const dynamic = "dynamic";
+export const dynamicParams = true;
+export const runtime = "nodejs";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -22,6 +25,7 @@ export const GET = async (req: NextRequest) => {
       { status: 200 },
     );
   } catch (error) {
+    console.log("error - eeror ", error);
     return NextResponse.json(
       { message: "Oops, something went wrong" },
       { status: 501 },
