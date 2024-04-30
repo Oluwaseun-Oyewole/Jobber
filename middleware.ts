@@ -50,3 +50,5 @@
 export const middleware = () => {
   return;
 };
+
+// export const runtime = "edge";
