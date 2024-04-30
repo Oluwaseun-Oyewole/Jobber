@@ -1,6 +1,6 @@
 // export const maxDuration = 10;
 
-export const dynamic = "dynamic";
+export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 export const runtime = "nodejs";
 
