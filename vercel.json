@@ -3,5 +3,7 @@
     "app/api/**/*": {
       "maxDuration": 10
     }
-  }
+  },
+  "region": ["lhr1"],
+  "public": false
 }

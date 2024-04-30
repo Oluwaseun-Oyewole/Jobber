@@ -1,4 +1,5 @@
 import { handleRequestError } from "@/utils/axios.error";
+import { Toastify } from "@/utils/toasts";
 import Request from "..";
 import { Endpoints } from "../endpoints";
 import {
@@ -32,8 +33,13 @@ export const getStatesByCountryName = async (
         data,
       },
     );
+    Toastify.success(response?.msg);
     return response;
-  } catch (error) {
-    handleRequestError(error);
+  } catch (error: any) {
+    if (error?.response?.status === 404) {
+      Toastify.error("no country found");
+    } else {
+      Toastify.error("An error occurred");
+    }
   }
 };

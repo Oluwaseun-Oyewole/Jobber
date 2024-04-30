@@ -35,13 +35,13 @@ const RecentSearches = () => {
 
   if (items?.length <= 0) {
     return (
-      <div className="h-[40vh] flex justify-center items-center">
-        <p className="font-medium text-deepBlue">No recent search</p>
+      <div className="h-[30vh] flex justify-center items-center bg-white shadow-lg rounded-md min-w-[30vw] mt-8">
+        <p className="font-medium text-deepBlue">No recent search(es)</p>
       </div>
     );
   }
   return (
-    <div className="min-h-[40vh] flex justify-center items-center">
+    <div className="min-h-[30vh] flex justify-center items-center  min-w-[35vw] bg-white shadow-lg rounded-md mt-8">
       <Table>
         <TableHeader>
           <TableRow>
@@ -50,7 +50,7 @@ const RecentSearches = () => {
         </TableHeader>
         <TableBody>
           {items?.map((searchTerm: string, index: number) => (
-            <TableRow>
+            <TableRow className="flex justify-between items-center bg-white shadow-lg rounded-md">
               <TableCell className="font-medium text-deepBlue" key={index}>
                 {searchTerm}
               </TableCell>

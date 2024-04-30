@@ -41,14 +41,14 @@ const SavedJobs = () => {
 
   if (items?.length <= 0) {
     return (
-      <div className="h-[40vh] flex justify-center items-center">
+      <div className="h-[30vh] flex justify-center items-center bg-white shadow-lg rounded-md mt-8 min-w-[35vw]">
         <p className="font-medium text-deepBlue">No saved job(s)</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-[40vh] flex justify-center items-center">
+    <div className="min-h-[40vh] flex justify-center items-center bg-white shadow-lg rounded-md mt-8 min-w-[35vw]">
       <Table>
         <TableHeader>
           <TableRow>
