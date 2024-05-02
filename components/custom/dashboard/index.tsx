@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <>
       <div className="block lg:grid grid-flow-col lg:grid-cols-[69%_29%] justify-between h-screen overflow-y-scroll">
-        <div>
+        <div className="md:pb-[100px]">
           <div className="bg-white h-[50vh] rounded-lg">
             <div className="w-[97%] py-6 mx-auto">
               <div className="flex justify-between items-center">

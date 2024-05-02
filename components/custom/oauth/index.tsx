@@ -10,12 +10,12 @@ const OAuth = () => {
   return (
     <div className="flex gap-3 py-3 md:py-5">
       <div
-        onClick={() => {
-          signIn("linkedin", { callbackUrl: login_redirect });
-        }}
+        // onClick={() => {
+        //   signIn("linkedin", { callbackUrl: login_redirect });
+        // }}
         className="bg-transparent hover:bg-transparent"
       >
-        <Image src={LinkedIn} alt="linkedin" className="cursor-pointer" />
+        <Image src={LinkedIn} alt="linkedin" className="cursor-not-allowed" />
       </div>
       <div
         className="bg-transparent hover:bg-transparent"

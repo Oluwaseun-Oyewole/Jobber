@@ -69,7 +69,7 @@ export default function RootLayout({
         <div className="hidden lg:block bg-white">
           <Sidebar />
         </div>
-        <div className="bg-gray-50 h-screen overflow-x-hidden">
+        <div className="bg-gray-50 overflow-x-hidden">
           <div className="bg-white">
             <div className="w-[92%] mx-auto">
               <DashboardNavigation />

@@ -13,7 +13,7 @@ export const Sidebar = () => {
   const username = session?.data?.user?.name ?? "";
 
   return (
-    <nav className="font-[300] lg:flex items-center flex-col lg:justify-center">
+    <nav className="font-[300] lg:flex items-center flex-col lg:justify-center h-screen">
       <div className="w-[87%]">
         <div className="lg:flex flex-col items-center justify-center">
           <div className="pt-6 pb-2 hidden lg:block">

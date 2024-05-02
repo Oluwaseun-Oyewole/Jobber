@@ -63,8 +63,20 @@ const DashboardNavigation = () => {
               <Link href="/dashboard/post-job">Post a Job</Link>
             </Button>
           )}
-          <Image src={NotificationIcon} alt="notification icon" />
-          <Image src={MessagingIcon} alt="message icon" />
+          <Link href="/dashboard/notification">
+            <Image
+              src={NotificationIcon}
+              alt="notification icon"
+              className="cursor-pointer"
+            />
+          </Link>
+          <Link href="/dashboard/messages">
+            <Image
+              src={MessagingIcon}
+              alt="message icon"
+              className="cursor-pointer"
+            />
+          </Link>
         </div>
       </div>
       <div className="lg:hidden flex justify-between items-center w-full">
@@ -135,8 +147,23 @@ const DashboardNavigation = () => {
                         <Link href="/dashboard/post-job">Post a Job</Link>
                       </Button>
                     )}
-                    <Image src={NotificationIcon} alt="notification icon" />
-                    <Image src={MessagingIcon} alt="message icon" />
+                    <Link
+                      href="/dashboard/notification"
+                      className="hidden cursor-pointer"
+                    >
+                      <Image
+                        src={NotificationIcon}
+                        alt="notification icon"
+                        className="cursor-pointer hidden"
+                      />
+                    </Link>
+                    <Link href="/dashboard/messages">
+                      <Image
+                        src={MessagingIcon}
+                        alt="message icon"
+                        className="cursor-pointer"
+                      />
+                    </Link>
                   </div>
                 </div>
               </SheetDescription>
