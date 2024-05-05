@@ -23,9 +23,6 @@ export const login = async (data: LoginFormValues) => {
   try {
     const response = await Request.post<AuthResponseBody>(Endpoints.login, {
       data,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
     });
     return response;
   } catch (error) {

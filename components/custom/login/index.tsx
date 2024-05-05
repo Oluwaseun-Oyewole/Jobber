@@ -140,7 +140,7 @@ const LoginComponent = () => {
                         type="checkbox"
                         onChange={handleCheckboxChange}
                         name="savedCredentials"
-                        checked={credentials}
+                        checked={!!credentials}
                         className="h-[15px] w-[15px] cursor-pointer"
                       />
                       <Label>Remember Me?</Label>
@@ -154,6 +154,7 @@ const LoginComponent = () => {
                   </div>
 
                   <Button
+                    type="submit"
                     disabled={!formik.isValid}
                     className="pt-5 !disabled:cursor-not-allowed w-full py-6 bg-deepBlue hover:bg-lightBlue transition-all ease-in-out duration-500 flex items-center gap-2"
                   >

@@ -69,6 +69,7 @@ const jobSlice = createSlice({
         const country = action.payload?.plus_code?.compound_code;
         const countryLength = country?.split(",").length - 1;
         state.country = country?.split(",")[countryLength];
+        localStorage.setItem("country", JSON.stringify(state.country));
       })
       .addCase(getCountryName.rejected, (state) => {
         state.isLoading = false;

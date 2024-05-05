@@ -11,7 +11,6 @@ import { useEffect } from "react";
 
 const Notification = () => {
   const dispatch = useAppDispatch();
-
   const { savedJobs, savedSearch } = useAppSelector(
     (state) => state.rootReducer.jobs,
   );
@@ -43,10 +42,16 @@ const Notification = () => {
               Recent Searches
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="saved-jobs">
+          <TabsContent
+            value="saved-jobs"
+            className="w-full flex flex-col items-center justify-center"
+          >
             <SavedJobs />
           </TabsContent>
-          <TabsContent value="recent-searches">
+          <TabsContent
+            value="recent-searches"
+            className="w-full flex flex-col items-center justify-center"
+          >
             <RecentSearches />
           </TabsContent>
         </Tabs>
@@ -66,7 +71,7 @@ const Notification = () => {
             This is where we notify you about your job applications and recent
             searches.
           </p>
-          <Link href="/">
+          <Link href={`/?page=1&resultsPerPage=4`}>
             <Button className="bg-lightBlue hover:bg-deepBlue">
               Find Jobs
             </Button>

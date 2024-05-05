@@ -11,12 +11,17 @@ interface IFormikControlProps {
 }
 
 const FormikController: FC<IFormikControlProps> = (props) => {
-  const { control, name, type, ...rest } = props;
+  const { control, name, value, type, ...rest } = props;
   switch (control) {
     case "input":
       return (
         <>
-          <Input {...rest} name={name} type={type ? type : "text"} />
+          <Input
+            {...rest}
+            name={name}
+            type={type ? type : "text"}
+            value={value}
+          />
           <ErrorMessage name={name}>
             {(msg) => <div>{<FormError error={msg} />}</div>}
           </ErrorMessage>
@@ -26,7 +31,7 @@ const FormikController: FC<IFormikControlProps> = (props) => {
     case "password":
       return (
         <>
-          <PasswordInput {...rest} name={name} />
+          <PasswordInput {...rest} name={name} value={value} />
           <ErrorMessage name={name}>
             {(msg) => <div>{<FormError error={msg} />}</div>}
           </ErrorMessage>

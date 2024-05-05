@@ -1,13 +1,16 @@
 import { useGetJobDetailsQuery } from "@/app/store/query";
+import { setNotification } from "@/app/store/slice";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAppSelector } from "@/lib/store/hook";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hook";
 import { truncate } from "@/utils/helper";
+import { Toastify } from "@/utils/toasts";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Saved from "../../../assets/fav.svg";
 import Share from "../../../assets/share.svg";
+import { SavedJobInterface } from "../cards";
 
 const JobTypeResponse = (str: any) => {
   switch (str) {
@@ -40,11 +43,40 @@ const Description = () => {
   const { data } = useGetJobDetailsQuery(myState, {
     skip: !myState.id,
   });
+  const dispatch = useAppDispatch();
 
   const getDetails = async () => {
     if (isSearchTrigger) return;
     else {
       await setState({ id: id ? id : firstJobID, location: country });
+    }
+  };
+
+  const checkIfJobInArray = (
+    object: SavedJobInterface,
+    array: SavedJobInterface[],
+  ): boolean => {
+    return array.some((item) => item.jobTitle === object.jobTitle);
+  };
+
+  const savedJobToLocalStorage = (object: SavedJobInterface) => {
+    let currentList: SavedJobInterface[] = [];
+    const storedList = localStorage.getItem("savedJobs");
+    if (storedList) {
+      currentList = JSON.parse(storedList);
+    }
+    const obj = checkIfJobInArray(object, currentList);
+    if (obj || object.jobTitle === "") {
+      Toastify.error("Job already saved");
+      return;
+    } else {
+      currentList.push(object);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("savedJobs", JSON.stringify(currentList));
+        localStorage.setItem("notification", String(true));
+      }
+      dispatch(setNotification());
+      Toastify.success("Job saved");
     }
   };
 
@@ -109,8 +141,24 @@ const Description = () => {
                       />
                     </div>
                     <div className="flex gap-2 items-center">
-                      <Image src={Share} alt="netflix" />
-                      <Image src={Saved} alt="netflix" />
+                      <Image
+                        src={Share}
+                        alt="netflix"
+                        className="cursor-not-allowed"
+                      />
+                      <Image
+                        src={Saved}
+                        alt="netflix"
+                        className="cursor-pointer"
+                        onClick={() =>
+                          savedJobToLocalStorage({
+                            id: data?.data?.id,
+                            jobTitle: data?.data?.jobTitle,
+                            companyName: data?.data?.companyName,
+                            location: data?.data?.location,
+                          })
+                        }
+                      />
                     </div>
                   </div>
                   <div className="py-6 flex gap-2 flex-col border__bottom">

@@ -89,8 +89,6 @@ const PaginationWrapper = ({
   //   }
   // }, [isPaginate]);
 
-  console.log("is paginate", isPaginate);
-
   return (
     <div className="flex items-center">
       <Pagination className="flex items-center gap-3 text-xs">

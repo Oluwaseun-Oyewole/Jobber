@@ -14,7 +14,9 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV !== "development",
   },
   images: {
-    domains: ["res.cloudinary.com"],
+    remotePatterns: [
+      { protocol: "https", hostname: "res.cloudinary.com", pathname: "**" },
+    ],
   },
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],

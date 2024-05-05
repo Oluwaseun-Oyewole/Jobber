@@ -12,7 +12,6 @@ export const getCountryName = createAsyncThunk(
       lat: data.lat,
       lng: data.lng,
     });
-
     return res;
   },
 );

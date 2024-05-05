@@ -9,7 +9,7 @@ import { getDateDifference, truncate } from "@/utils/helper";
 import { Toastify } from "@/utils/toasts";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Dollar from "../../../assets/dollar.svg";
 import Saved from "../../../assets/fav.svg";
 
@@ -50,10 +50,9 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   const page = +searchParams.get("page")!;
   const resultsPerPage = +searchParams.get("resultsPerPage")!;
   const searchQuery = searchParams.get("query")!;
-  const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { refetch } = useGetAllJobsQuery(
+  useGetAllJobsQuery(
     {
       page: page && page > 0 ? page : 1,
       resultsPerPage: resultsPerPage && resultsPerPage > 0 ? resultsPerPage : 4,
@@ -62,11 +61,6 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
     { skip: page <= 0 || resultsPerPage <= 0 || !country || isSearchTrigger },
   );
 
-  const handleRefetch = () => {
-    refetch();
-    router.push("/");
-  };
-
   if (!data) {
     return (
       <div>
@@ -74,11 +68,13 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
           <div className="h-[250px] w-full bg-white rounded-lg shadow-md hover:shadow-lg cursor-pointer flex flex-col gap-2 justify-center items-center">
             <h1 className="text-lg ">No jobs available</h1>
             {!searchQuery && (
-              <Button
-                className="!bg-lightBlue text-xs hover:!bg-deepBlue"
-                onClick={handleRefetch}
-              >
-                Fetch jobs
+              <Button className="!bg-lightBlue text-xs hover:!bg-deepBlue">
+                <Link
+                  href={`?page=${page}&resultsPerPage=${resultsPerPage}`}
+                  onClick={() => window.location.reload()}
+                >
+                  Fetch jobs
+                </Link>
               </Button>
             )}
           </div>
@@ -115,11 +111,13 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
       <div className="h-[60vh] flex flex-col items-center justify-center">
         <div className="h-[250px] w-full bg-white rounded-lg shadow-md hover:shadow-lg cursor-pointer flex flex-col gap-2 justify-center items-center">
           <h1 className="text-lg ">No jobs available</h1>
-          <Button
-            className="!bg-lightBlue text-xs hover:!bg-deepBlue"
-            onClick={handleRefetch}
-          >
-            Fetch jobs
+          <Button className="!bg-lightBlue text-xs hover:!bg-deepBlue">
+            <Link
+              href={`?page=${page}&resultsPerPage=${resultsPerPage}`}
+              onClick={() => window.location.reload()}
+            >
+              Fetch jobs
+            </Link>
           </Button>
         </div>
       </div>
@@ -164,7 +162,6 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
           if (!validateJobs.success) {
             return <div>Invalid Job Schema</div>;
           }
-
           return (
             <div key={job?.id}>
               <Link href={`/job-description/${job?.id}`} className="xl:hidden">
@@ -239,21 +236,21 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm font-[300]">
+                      <div className="text-sm font-[300]">
                         {days > 0 ? (
-                          <div>
+                          <p>
                             {days} {days > 1 ? "days" : "day"} ago
-                          </div>
+                          </p>
                         ) : hours > 0 ? (
-                          <div>
+                          <p>
                             {hours} {hours > 1 ? "hrs" : "hr"} ago
-                          </div>
+                          </p>
                         ) : (
-                          <div>
+                          <p>
                             {minutes} {minutes > 1 ? "mins" : "mins"} ago
-                          </div>
+                          </p>
                         )}
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -329,21 +326,21 @@ const Cards = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm font-[300]">
+                    <div className="text-sm font-[300]">
                       {days > 0 ? (
-                        <div>
+                        <p>
                           {days} {days > 1 ? "days" : "day"} ago
-                        </div>
+                        </p>
                       ) : hours > 0 ? (
-                        <div>
+                        <p>
                           {hours} {hours > 1 ? "hrs" : "hr"} ago
-                        </div>
+                        </p>
                       ) : (
-                        <div>
+                        <p>
                           {minutes} {minutes > 1 ? "mins" : "mins"} ago
-                        </div>
+                        </p>
                       )}
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -35,13 +35,13 @@ const RecentSearches = () => {
 
   if (items?.length <= 0) {
     return (
-      <div className="h-[30vh] flex justify-center items-center bg-white shadow-lg rounded-md min-w-[30vw] mt-8">
+      <div className="h-[30vh] flex justify-center items-center bg-white shadow-lg rounded-md  w-[90%] lg:w-[45%] mt-8">
         <p className="font-medium text-deepBlue">No recent search(es)</p>
       </div>
     );
   }
   return (
-    <div className="min-h-[30vh] flex justify-center items-center  min-w-[35vw] bg-white shadow-lg rounded-md mt-8">
+    <div className="h-[40vh] flex justify-center items-center w-[90%] lg:w-[45%] bg-white shadow-lg rounded-md mt-8 overflow-y-scroll">
       <Table>
         <TableHeader>
           <TableRow>

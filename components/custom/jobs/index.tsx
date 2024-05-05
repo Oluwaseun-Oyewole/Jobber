@@ -215,7 +215,7 @@ const Jobs = () => {
   return (
     <>
       <div className="mx-4 flex flex-col gap-3 overflow-y-scroll h-[90vh]">
-        <div className="bg-lightGray sticky top-0 bg-transparent left-0 z-10">
+        <div className="bg-lightGray bg-transparent z-10">
           <Search />
         </div>
 

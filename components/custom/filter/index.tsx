@@ -78,10 +78,6 @@ const Filter = () => {
   const price_min = +searchParams.get("price_min")!;
   const price_max = +searchParams.get("price_max")!;
   const { selected, isSelected, onChange } = useMultiselect([]);
-  // const dispatch = useAppDispatch();
-
-  // console.log("is selected -- ", selected);
-  // console.log("is sslected", isSelected(selected[0]));
 
   const classes = {
     border: "py-6 border-b-2 border-lightGray",
@@ -382,15 +378,11 @@ const Filter = () => {
     if (reset) {
       refetch();
     }
-    const params = new URLSearchParams(searchParams);
-    params.delete("filter__attr");
-    params.delete("price_min");
-    params.delete("price_max");
-    router.push(`?${params.toString()}`);
+    router.push(`/?page=1&resultsPerPage=4`);
   };
 
   return (
-    <div className="hidden md:block bg-white shadow-md rounded-lg pb-8 px-5 h-[84vh] overflow-scroll sticky top-0 left-0">
+    <div className="hidden md:block bg-white shadow-md rounded-lg pb-8 px-5 h-[84vh] overflow-y-scroll">
       <div
         className={classNames(
           classes.flexJustifyBetween,
@@ -414,9 +406,12 @@ const Filter = () => {
             onValueChange={(e) => handleRadioChange(e)}
           >
             <div className="grid gap-3 grid-cols-[50%_50%] items-center">
-              {sortBy?.map((sort) => {
+              {sortBy?.map((sort, index) => {
                 return (
-                  <div className={classNames(classes.flexCenterSpace)}>
+                  <div
+                    className={classNames(classes.flexCenterSpace)}
+                    key={index}
+                  >
                     <RadioGroupItem
                       value={`${sort.value}`}
                       id={`${sort.value}`}
@@ -470,10 +465,10 @@ const Filter = () => {
 
         <div className="w-[92%]">
           <div className="grid grid-flow-cols grid-cols-[50%_50%] gap-3">
-            {jobType?.map((job) => {
+            {jobType?.map((job, index) => {
               return (
                 <div
-                  key={job.id}
+                  key={index}
                   className={classNames(classes.flexJustifyBetween)}
                 >
                   <div
@@ -504,9 +499,12 @@ const Filter = () => {
         <h2 className="pb-4 font-bold">Experience</h2>
         <div className="w-[92%]">
           <div className="grid grid-flow-cols grid-cols-[50%_50%] gap-3">
-            {jobExperience?.map((job) => {
+            {jobExperience?.map((job, index) => {
               return (
-                <div className={classNames(classes.flexJustifyBetween)}>
+                <div
+                  className={classNames(classes.flexJustifyBetween)}
+                  key={index}
+                >
                   <div
                     className={classNames(
                       classes.flexCenterSpace,
@@ -535,9 +533,12 @@ const Filter = () => {
 
         <div className="w-[92%]">
           <div className="grid grid-flow-cols grid-cols-[50%_50%] gap-3">
-            {jobPosition?.map((job) => {
+            {jobPosition?.map((job, index) => {
               return (
-                <div className={classNames(classes.flexJustifyBetween)}>
+                <div
+                  className={classNames(classes.flexJustifyBetween)}
+                  key={index}
+                >
                   <div
                     className={classNames(
                       classes.flexCenterSpace,
