@@ -2,6 +2,9 @@
 CREATE TYPE "JobType" AS ENUM ('fulltime', 'parttime', 'internship', 'volunteer', 'contract');
 
 -- CreateEnum
+CREATE TYPE "UserType" AS ENUM ('Employer', 'JobSeeker');
+
+-- CreateEnum
 CREATE TYPE "Experience" AS ENUM ('Fresh', 'Beginner', 'Intermediate', 'Expert', 'Guru');
 
 -- CreateEnum
@@ -28,11 +31,23 @@ CREATE TABLE "Account" (
 );
 
 -- CreateTable
+CREATE TABLE "otp" (
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "otp" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL,
+    "expires_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "otp_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "name" TEXT,
     "password" TEXT,
     "email" TEXT,
+    "user_type" "UserType" NOT NULL DEFAULT 'JobSeeker',
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "email_verified" TIMESTAMP(3),
@@ -61,6 +76,7 @@ CREATE TABLE "jobs" (
     "aboutCompany" TEXT,
     "country" TEXT,
     "applicationLink" TEXT,
+    "post_id" TEXT NOT NULL,
 
     CONSTRAINT "jobs_pkey" PRIMARY KEY ("id")
 );
@@ -73,3 +89,9 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "otp" ADD CONSTRAINT "otp_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "jobs" ADD CONSTRAINT "jobs_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
