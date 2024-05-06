@@ -147,14 +147,11 @@ const DashboardNavigation = () => {
                         <Link href="/dashboard/post-job">Post a Job</Link>
                       </Button>
                     )}
-                    <Link
-                      href="/dashboard/notification"
-                      className="hidden cursor-pointer"
-                    >
+                    <Link href="/dashboard/notification">
                       <Image
                         src={NotificationIcon}
                         alt="notification icon"
-                        className="cursor-pointer hidden"
+                        className="cursor-pointer"
                       />
                     </Link>
                     <Link href="/dashboard/messages">
