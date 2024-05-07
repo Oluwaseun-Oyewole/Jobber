@@ -25,16 +25,34 @@ export async function sendMail({
     },
   });
 
-  try {
-    await transport.sendMail({
-      from: SMTP_EMAIL,
-      to,
-      subject,
-      html: body,
+  await new Promise((resolve, reject) => {
+    transport.verify(function (error, success) {
+      if (error) {
+        console.log(error);
+        reject(error);
+      } else {
+        resolve(success);
+      }
     });
-  } catch (error) {
-    return null;
-  }
+  });
+
+  await new Promise((resolve, reject) => {
+    transport.sendMail(
+      {
+        from: SMTP_EMAIL,
+        to,
+        subject,
+        html: body,
+      },
+      (err, info) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(info);
+        }
+      },
+    );
+  });
 }
 
 export const compileOTPVerificationTemplate = (
