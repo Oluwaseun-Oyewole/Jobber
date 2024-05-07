@@ -33,7 +33,7 @@ const RecentSearches = () => {
     }
   }, []);
 
-  if (items?.length <= 0) {
+  if (items?.length <= 0 || !items) {
     return (
       <div className="h-[30vh] flex justify-center items-center bg-white shadow-lg rounded-md  w-[90%] lg:w-[45%] mt-8">
         <p className="font-medium text-deepBlue">No recent search(es)</p>
@@ -41,17 +41,20 @@ const RecentSearches = () => {
     );
   }
   return (
-    <div className="h-[40vh] flex justify-center items-center w-[90%] lg:w-[45%] bg-white shadow-lg rounded-md mt-8 overflow-y-scroll">
+    <div className="flex justify-center items-center w-[90%] lg:w-[45%] bg-white shadow-lg rounded-md mt-8">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[150px] text-deepBlue">Searches</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="h-[40vh] overflow-y-scroll">
           {items?.map((searchTerm: string, index: number) => (
-            <TableRow className="flex justify-between items-center bg-white shadow-lg rounded-md">
-              <TableCell className="font-medium text-deepBlue" key={index}>
+            <TableRow
+              className="flex justify-between items-center bg-white shadow-lg rounded-md"
+              key={index}
+            >
+              <TableCell className="font-medium text-deepBlue">
                 {searchTerm}
               </TableCell>
               <TableCell className="font-light" key={index}>

@@ -39,7 +39,7 @@ const SavedJobs = () => {
     }
   }, [dispatch]);
 
-  if (items?.length <= 0) {
+  if (items?.length <= 0 || !items) {
     return (
       <div className="h-[30vh] flex justify-center items-center bg-white shadow-lg rounded-md mt-8 w-[90%] lg:w-[45%]">
         <p className="font-medium text-deepBlue">No saved job(s)</p>
@@ -47,8 +47,10 @@ const SavedJobs = () => {
     );
   }
 
+  console.log("item items-", items);
+
   return (
-    <div className="h-[40vh] flex justify-center items-center w-[90%] lg:w-[45%] bg-white shadow-lg rounded-md mt-8 overflow-y-scroll">
+    <div className="flex justify-center items-center w-[90%] lg:w-[45%] bg-white shadow-lg rounded-md mt-8 overflow-y-scroll">
       <Table>
         <TableHeader>
           <TableRow>
@@ -57,10 +59,10 @@ const SavedJobs = () => {
             <TableHead className="w-[150px] text-deepBlue">Location</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="h-[40vh] overflow-y-scroll">
           {items?.map((job: IJob, index: number) => (
-            <TableRow>
-              <TableCell className="font-medium" key={index}>
+            <TableRow key={index}>
+              <TableCell className="font-medium">
                 <Link
                   href={`job-description/${job.id}`}
                   className="text-deepBlue"

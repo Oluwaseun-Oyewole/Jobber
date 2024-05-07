@@ -18,7 +18,7 @@ export default function AuthLayout({
 
   return (
     <main
-      className={`${outfit.className} flex flex-col items-center justify-center min-h-screen w-full`}
+      className={`${outfit.className} flex flex-col items-center justify-center w-full`}
     >
       <div className="w-full">
         <Nav />

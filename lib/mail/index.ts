@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Handlebars from "handlebars";
 import nodemailer from "nodemailer";
 import { forgotPasswordTemplate } from "../templates/forgot-password";
