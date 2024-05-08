@@ -1,5 +1,4 @@
 export const dynamic = "force-dynamic";
-
 import Handlebars from "handlebars";
 import nodemailer from "nodemailer";
 import { forgotPasswordTemplate } from "../templates/forgot-password";
@@ -57,12 +56,12 @@ export async function sendMail({
   });
 }
 
-export const compileOTPVerificationTemplate = (
+export const compileOTPVerificationTemplate = async (
   username: string,
   otp: number,
 ) => {
-  const template = Handlebars.compile(otpTemplates);
-  const htmlBody = template({
+  const template = await Handlebars.compile(otpTemplates);
+  const htmlBody = await template({
     username,
     otp,
   });

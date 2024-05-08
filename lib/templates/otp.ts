@@ -39,5 +39,4 @@ export const otpTemplates = `<!DOCTYPE html>
     </div>
   </body>
 </html>
-
 `;

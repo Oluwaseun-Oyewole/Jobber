@@ -34,7 +34,7 @@ export const sendOTPVerification = async ({
       expiresAt: addMinutes(currentDate, 15),
     },
   });
-  const body = compileOTPVerificationTemplate(username, +otp.otp);
+  const body = await compileOTPVerificationTemplate(username, +otp.otp);
   return await sendMail({
     to: email,
     subject: `${otp.otp} is your verification code`,
