@@ -29,14 +29,21 @@ export const POST = async (req: NextRequest) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await prisma.user.create({
-      data: { name, email, password: hashedPassword, userType },
-    });
+    const sendMail = await sendOTPVerification({ email, username: name });
 
-    await sendOTPVerification({ email, username: name });
+    if (sendMail) {
+      await prisma.user.create({
+        data: { name, email, password: hashedPassword, userType },
+      });
+      return NextResponse.json(
+        { message: "An otp code has been sent to your mail", status: 200 },
+        { status: 201 },
+      );
+    }
+
     return NextResponse.json(
-      { message: "An otp code has been sent to your mail", status: 200 },
-      { status: 201 },
+      { message: "Mail not sent", status: 501 },
+      { status: 501 },
     );
   } catch (error) {
     return NextResponse.json(
