@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { FormProvider } from "@/context";
 import { useAppDispatch } from "@/lib/store/hook";
-import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { outfit } from "../fonts";
 
@@ -25,6 +26,13 @@ export default function RootLayout({
   const getTitle = pathname.split("/");
   const [coordinates, setCoordinate] = useState({ lat: 0, lng: 0 });
   const dispatch = useAppDispatch();
+
+  const session = useSession();
+  const router = useRouter();
+
+  if (session.status === "unauthenticated") {
+    router.push("/auth/login");
+  }
 
   useEffect(() => {
     if (navigator?.geolocation) {

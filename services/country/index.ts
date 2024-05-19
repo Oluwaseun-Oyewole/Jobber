@@ -33,7 +33,7 @@ export const getStatesByCountryName = async (
         data,
       },
     );
-    Toastify.success(response?.msg);
+    // Toastify.success(response?.msg);
     return response;
   } catch (error: any) {
     if (error?.response?.status === 404) {

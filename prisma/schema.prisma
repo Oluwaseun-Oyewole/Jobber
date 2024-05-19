@@ -72,6 +72,7 @@ model User{
     id          String      @default(cuid()) @id
     name        String?
     password    String?
+    image       String?
     email       String? @unique
     userType    UserType @default(JobSeeker) @map("user_type")
     createdAt   DateTime  @default(now()) @map(name: "created_at")

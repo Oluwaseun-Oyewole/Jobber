@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <>
       <div className="block lg:grid grid-flow-col lg:grid-cols-[69%_29%] justify-between h-screen overflow-y-scroll">
-        <div className="md:pb-[100px]">
+        <div className="lg:pb-20">
           <div className="bg-white h-[50vh] rounded-lg">
             <div className="w-[97%] py-6 mx-auto">
               <div className="flex justify-between items-center">
@@ -198,7 +198,7 @@ export default function Home() {
                   })}
                 </div>
               )}
-              {isSuccess && jobs?.length <= 0 && (
+              {isSuccess && session?.data?.user?.jobs?.length <= 0 && (
                 <div className=" h-[30vh] w-full cursor-pointer flex flex-col gap-2 justify-center items-center">
                   <h1 className="text-lg ">No jobs available</h1>
                 </div>

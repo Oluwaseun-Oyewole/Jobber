@@ -12,7 +12,6 @@ export const POST = async (req: NextRequest) => {
   const body: RegisterFormValues = await req.json();
   const parsedFormValues = registerValidationSchema.safeParse(body);
   const { name, email, password, userType } = body;
-
   if (!parsedFormValues.success) {
     return NextResponse.json(
       { message: "Empty form fields not allowed" },
@@ -28,22 +27,13 @@ export const POST = async (req: NextRequest) => {
       );
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    const sendMail = await sendOTPVerification({ email, username: name });
-
-    if (sendMail) {
-      await prisma.user.create({
-        data: { name, email, password: hashedPassword, userType },
-      });
-      return NextResponse.json(
-        { message: "An otp code has been sent to your mail", status: 200 },
-        { status: 201 },
-      );
-    }
-
+    await prisma.user.create({
+      data: { name, email, password: hashedPassword, userType },
+    });
+    await sendOTPVerification({ email, username: name });
     return NextResponse.json(
-      { message: "Mail not sent", status: 501 },
-      { status: 501 },
+      { message: "An otp code has been sent to your mail", status: 200 },
+      { status: 201 },
     );
   } catch (error) {
     return NextResponse.json(

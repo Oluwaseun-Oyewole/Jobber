@@ -3,6 +3,7 @@ import Dots from "@/assets/dots.svg";
 import { ICardTypes } from "@/utils/constants";
 import classNames from "classnames";
 import moment from "moment";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -10,13 +11,19 @@ type ICards = {
   cardArray: ICardTypes[];
 };
 const Cards = ({ cardArray }: ICards) => {
+  const session = useSession();
   const updatedCards = cardArray?.map((card) => {
     switch (card.id) {
       case 1:
         return { ...card };
-
+      case 2:
+        return { ...card };
+      case 3:
+        return { ...card };
+      case 4:
+        return { ...card, total: session?.data?.user?.jobs.length };
       default:
-        return card;
+        return { ...card };
     }
   });
   const [currentDateTime, setCurrentDateTime] = useState<string>("Jan 2024");
@@ -46,7 +53,7 @@ const Cards = ({ cardArray }: ICards) => {
             <Image src={Dots} alt="dot image" />
           </div>
           <p className="text-3xl font-medium text-gray-500 md:text-black">
-            {el.total}
+            {el.total ?? 0}
           </p>
         </div>
       ))}

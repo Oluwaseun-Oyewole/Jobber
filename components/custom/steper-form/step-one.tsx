@@ -183,7 +183,7 @@ const CreateJob = () => {
                     className={`flex flex-col ${formik.isValid ? "gap-4" : "gap-2"} w-full`}
                   >
                     <div className="flex flex-col md:flex-row w-full md:w-[95%] mx-auto gap-4">
-                      <div className="relative  w-full">
+                      <div className="relative w-full">
                         <FormikController
                           control="input"
                           type="text"
@@ -200,7 +200,7 @@ const CreateJob = () => {
                           <Captions size={25} />
                         </div>
                       </div>
-                      <div className="relative  w-full">
+                      <div className="relative w-full">
                         <FormikController
                           control="input"
                           type="text"
@@ -429,11 +429,13 @@ const CreateJob = () => {
                           }}
                         >
                           <SelectTrigger className="w-full pl-14 font-light">
-                            <SelectValue
+                            {/* <div>{formik.values.location}</div> */}
+                            {/* <SelectValue
                               placeholder="location"
-                              className="!font-light"
-                            />
+                              // className="!font-light"
+                            /> */}
                           </SelectTrigger>
+
                           <SelectContent>
                             <SelectItem
                               value="Remote"
@@ -461,6 +463,7 @@ const CreateJob = () => {
                             })}
                           </SelectContent>
                         </Select>
+
                         <div className="absolute top-5 left-4">
                           <Locate size={20} />
                         </div>
@@ -483,7 +486,7 @@ const CreateJob = () => {
                     </div>
 
                     <div className="flex flex-col md:flex-row w-full md:w-[95%] mx-auto gap-4 mt-4">
-                      <div className="">
+                      <div>
                         <div
                           className="cursor-pointer"
                           onClick={() => {
