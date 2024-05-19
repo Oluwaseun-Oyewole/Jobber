@@ -101,7 +101,7 @@ export default function Home() {
           <ProfileViewers />
         </div>
         <div className="mt-10 md:mt-0 flex flex-col gap-5 pb-20">
-          <div className="bg-white shadow-lg font-[300] w-full rounded-md h-[55vh]">
+          <div className="bg-white shadow-lg font-[300] w-full rounded-md h-[55vh] overflow-y-scroll pb-8">
             <div className="w-[85%] mx-auto">
               <div className="py-6 flex items-center justify-between sticky top-0 left-0 bg-white">
                 <p className="text-lg">Jobs for you</p>
@@ -172,7 +172,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="bg-white shadow-lg font-[300] w-full rounded-md mb-10">
+          <div className="bg-white shadow-lg font-[300] w-full rounded-md mb-10 overflow-y-scroll">
             <div className="w-[85%] mx-auto">
               <div className="py-6 flex items-center justify-between sticky top-0 left-0 bg-white">
                 <p className="text-lg">Jobs posted by you</p>

@@ -81,7 +81,7 @@ model User{
     accounts        Account[]
     otp             Otp[]
     jobs            Job[]
-    @@map(name:"users")
+    @@map(name:"users") 
 }
 
 
