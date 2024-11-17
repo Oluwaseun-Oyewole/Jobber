@@ -166,7 +166,6 @@ const LoginComponent = () => {
             }}
           </Formik>
         </div>
-
         <div className="pt-5 flex justify-between gap-3">
           <p>New Job Seekers?</p>
           <Link href="/auth/register" className="text-deepPurple">

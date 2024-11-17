@@ -47,8 +47,6 @@ const SavedJobs = () => {
     );
   }
 
-  console.log("item items-", items);
-
   return (
     <div className="flex justify-center items-center w-[90%] lg:w-[45%] bg-white shadow-lg rounded-md mt-8 overflow-y-scroll">
       <Table>
@@ -59,7 +57,7 @@ const SavedJobs = () => {
             <TableHead className="w-[150px] text-deepBlue">Location</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody className="h-[40vh] overflow-y-scroll">
+        <TableBody className="overflow-y-scroll">
           {items?.map((job: IJob, index: number) => (
             <TableRow key={index}>
               <TableCell className="font-medium">

@@ -48,7 +48,7 @@ const RecentSearches = () => {
             <TableHead className="w-[150px] text-deepBlue">Searches</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody className="h-[40vh] overflow-y-scroll">
+        <TableBody className="overflow-y-scroll">
           {items?.map((searchTerm: string, index: number) => (
             <TableRow
               className="flex justify-between items-center bg-white shadow-lg rounded-md"

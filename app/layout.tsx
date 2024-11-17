@@ -14,7 +14,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const storeRef = useRef<AppStore>();
-  1;
   if (!storeRef.current) {
     storeRef.current = store();
   }

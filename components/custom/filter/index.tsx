@@ -99,7 +99,6 @@ const Filter = () => {
       const params = new URLSearchParams(searchParams);
       params.set("page", query.page.toString());
       params.set("resultsPerPage", query.resultsPerPage.toString());
-
       if (query.jobType) {
         params.set("jobType", query.jobType);
       }
